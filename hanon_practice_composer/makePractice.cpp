@@ -1,7 +1,8 @@
-#include "makepractice.h"
+#include "makePractice.h"
 
 makePractice::makePractice() {
-	std::cout << "Šî‘b—ûK(1`20)‚Ì—ûKì‚Á‚½B";
+	Cont = new data_controller();
+	std::cout << "Šî‘b—ûK(1`20)‚Ì—ûKì‚Á‚½B\n";
 }
 
 makePractice::~makePractice() {

@@ -1,5 +1,5 @@
 #pragma once
-#include "output.h"
+#include "data_controller.h"
 
 class Individual {
 public:

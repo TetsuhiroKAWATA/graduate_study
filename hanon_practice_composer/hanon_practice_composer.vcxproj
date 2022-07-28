@@ -130,12 +130,12 @@
     <ClCompile Include="hanon_practice_composer.cpp" />
     <ClCompile Include="Individual.cpp" />
     <ClCompile Include="makePractice.cpp" />
-    <ClCompile Include="output.cpp" />
+    <ClCompile Include="data_controller.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Individual.h" />
     <ClInclude Include="makePractice.h" />
-    <ClInclude Include="output.h" />
+    <ClInclude Include="data_controller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

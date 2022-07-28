@@ -7,5 +7,5 @@ public:
 	~makePractice();
 	void printResult();
 private:
-
+	data_controller* Cont;
 };
