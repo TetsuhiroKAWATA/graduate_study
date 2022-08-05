@@ -43,17 +43,34 @@ int main()
     //初期集団作成はコントラクタから関数呼び出してやる
     mPrac = new makePractice();
     do {
+        confirm = 'N';
         std::cout << "1:楽曲A\n";
         std::cout << "2:楽曲B\n";
-        std::cout << "それぞれの楽曲に点数をつけてください。\n";
-        std::cout << "最終結果として出力する楽曲が決定した場合、それらに対応する数字を入力してください。";
-        std::cout << "楽曲No.1の採点\n";
-        std::cin >> evaluation;
-        std::cout << "楽曲No.2の採点\n";
-        std::cin >> evaluation;
-        if (evaluation==1) {
-            std::cout << "結果を確定\n";//ちょっとこの辺の制御がうんちなので、実際の実装ができたら弄る
+        std::cout << "最終結果としたい楽曲はありましたか？ y/n\n";
+        std::cin >> confirm;
+        if (confirm == "Y" || confirm == "y") {
+            do {
+                std::cout << "どちらの楽曲を出力しますか？\n";
+                evaluation = -1;
+                std::cin >> evaluation;
+                if (evaluation == 1 || evaluation == 2) {
+                    std::cout << evaluation << "の楽曲を出力します。\n";
+                    break;
+                }
+                else {
+                    std::cout << "正しい数字を入力してください\n";
+                }
+
+            } while (1);
             break;
+        }
+        else {
+            std::cout << "それぞれの楽曲に点数をつけてください。\n";
+            std::cout << "楽曲No.1の採点\n";
+            std::cin >> evaluation;
+            std::cout << "楽曲No.2の採点\n";
+            std::cin >> evaluation;
+            std::cout << "楽曲をもう一度作成します\n";
         }
     } while (1);
 
