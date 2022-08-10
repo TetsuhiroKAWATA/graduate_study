@@ -1,8 +1,14 @@
 #include "makePractice.h"
 
 makePractice::makePractice() {
-	Cont = new data_controller();
 	std::cout << "基礎練習(1～20)の練習作った。\n";
+	
+	//data_controllerはここで一回呼び、以降はpublicのデータだけポインタで指定して云々
+	Cont = new data_controller();
+
+	for (int i = 0; i < MusicNum; i++) {
+		Ind[i] = new Individual();
+	}
 }
 
 makePractice::~makePractice() {

@@ -13,6 +13,7 @@ const static int Kstuck = 30;//key.csv読み込み用の2次元配列の要素数その1
 const static int Kline = 4;//上に同じその2
 const static int Sstuck = 3;//scale_tmp_keynote.csv読み込み用の2次元配列の要素数その1
 const static int Sline = 18;//上に同じその2
+const static int MusicNum = 5;//作成する練習曲の数
 
 
 class data_controller {

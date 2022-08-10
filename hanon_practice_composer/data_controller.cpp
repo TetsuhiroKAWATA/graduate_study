@@ -7,10 +7,13 @@ data_controller::data_controller() {
 	readData("../data/foundation/key.csv", tmpp, Kstuck, Kline);
 	tmpp = (char*)scaleTKeynote;
 	readData("../data/foundation/scale_tmp_keynote.csv", tmpp, Sstuck, Sline);
+
+
 }
 
 data_controller::~data_controller() {
-
+	delete textHolder;
+	delete chord, notes, scaleTKeynote, keynoteOrder, key;
 }
 
 
