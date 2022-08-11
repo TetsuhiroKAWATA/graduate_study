@@ -12,8 +12,6 @@ data_controller::data_controller() {
 }
 
 data_controller::~data_controller() {
-	delete textHolder;
-	delete chord, notes, scaleTKeynote, keynoteOrder, key;
 }
 
 

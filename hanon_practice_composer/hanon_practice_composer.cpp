@@ -6,14 +6,17 @@
 int main()
 {
     //初期値に意味がない系変数
-    int selectNum = -999;
-    std::string confirm = "N";
-    int evaluation = -999;
+    int selectNum = -999;//割り当てられた練習項目
+    std::string confirm = "N";//意思決定確認用変数
+    int evaluation = -999;//
 
     //初期値に意味がある系変数
     const int PNum = 5;//練習項目数
     std::string items[] = { "基礎練習(1～20)", "スケール(39)", "アルペジオ(41～43)", "オクターブ(51,53,57)", "半音階(40)" };
     makePractice* mPrac;
+
+    //乱数の種
+    srand((unsigned int)time(NULL));
 
     std::cout << "Hanon Practice Composer\n";
 
@@ -41,19 +44,21 @@ int main()
 
     //世代交代とかやる
     //初期集団作成はコントラクタから関数呼び出してやる
-    mPrac = new makePractice();
+    mPrac = new makePractice(selectNum);
     do {
         confirm = 'N';
-        std::cout << "1:楽曲A\n";
-        std::cout << "2:楽曲B\n";
+        for (int i = 0; i < MusicNum; i++) {
+            std::cout << i + 1 << ":music" << mPrac->Ind[i]->productNum << "\n";
+            //std::cout << "Debug::zantei\n";
+        }
         std::cout << "最終結果としたい楽曲はありましたか？ y/n\n";
         std::cin >> confirm;
         if (confirm == "Y" || confirm == "y") {
             do {
-                std::cout << "どちらの楽曲を出力しますか？\n";
+                std::cout << "どの楽曲を出力しますか？\n";
                 evaluation = -1;
                 std::cin >> evaluation;
-                if (evaluation == 1 || evaluation == 2) {
+                if (evaluation >= 1 && evaluation <= MusicNum) {
                     std::cout << evaluation << "の楽曲を出力します。\n";
                     break;
                 }
@@ -66,7 +71,7 @@ int main()
         }
         else {
             std::cout << "それぞれの楽曲に点数をつけてください。\n";
-            std::cout << "楽曲No.1の採点\n";
+            std::cout << "楽曲No.1の採点(暫定)\n";
             std::cin >> evaluation;
             std::cout << "楽曲No.2の採点\n";
             std::cin >> evaluation;

@@ -9,12 +9,16 @@ const int Stac = 1;//最短の単位(八分音符基準)
 const int meloMakeNum = 7;//メロディ作成数合計
 const int meloMakeFrag = 2;//一度に作成するメロディ
 const int meloMakeRep = 2;//メロディ作成繰り返し回数
-const static int Kstuck = 30;//key.csv読み込み用の2次元配列の要素数その1
+const static int Kstuck = 24;//key.csv読み込み用の2次元配列の要素数その1,最大値は30
 const static int Kline = 4;//上に同じその2
 const static int Sstuck = 3;//scale_tmp_keynote.csv読み込み用の2次元配列の要素数その1
 const static int Sline = 18;//上に同じその2
 const static int MusicNum = 5;//作成する練習曲の数
 
+//グローバル変数系
+static float GproductSum = 0.5;
+static int chromLen = -999;//染色体の長さ。初期集団作るときに設定される
+static char musicChord = NULL;
 
 class data_controller {
 public:
