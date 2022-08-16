@@ -1,7 +1,7 @@
 #include "data_controller.h"
 
 data_controller::data_controller() {
-	std::cout << "データを読み込んだ\n";
+	//std::cout << "データを読み込んだ\n";
 	//基礎データ読む
 	tmpp = (char*)key;
 	readData("../data/foundation/key.csv", tmpp, Kstuck, Kline);
@@ -16,7 +16,7 @@ data_controller::~data_controller() {
 
 
 void data_controller::readData(std::string fileName, char* p, int chunkNum, int lineNum) {
-	std::cout << "Debug::readData:" << fileName << "\n";
+	//std::cout << "Debug::readData:" << fileName << "\n";
 	//ファイル開く
 	fin.open(fileName);
 	if (!fin) {

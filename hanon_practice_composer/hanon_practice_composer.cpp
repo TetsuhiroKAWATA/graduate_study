@@ -8,7 +8,9 @@ int main()
     //初期値に意味がない系変数
     int selectNum = -999;//割り当てられた練習項目
     std::string confirm = "N";//意思決定確認用変数
-    int evaluation = -999;//
+    int evaluation = -999;//ユーザが付けた点数入れるやつ、のはず
+    int chordNum = -999;//調を選択するやつ
+    int generalTmp = -999;//汎用的に仕えるデータの一時保管先(int型)
 
     //初期値に意味がある系変数
     const int PNum = 5;//練習項目数
@@ -39,12 +41,115 @@ int main()
             std::cout << "その番号には練習項目が割り当てられていません。\n";
         }
     } while (1);
-    std::cout << "Debug::do_while_finished\n";
-    std::cout << "Debug::items = " << items[selectNum] << "\n";
+    //std::cout << "Debug::do_while_finished\n";
+    //std::cout << "Debug::items = " << items[selectNum] << "\n";
 
     //世代交代とかやる
     //初期集団作成はコントラクタから関数呼び出してやる
     mPrac = new makePractice(selectNum);
+
+    //調を決定する(data_controllerここで定義するのやめたほうが良いかも・・・)
+    if (selectNum == 0 || selectNum == 3 || selectNum == 4) {
+        //基礎とオクターブと半音階
+        musicChord = 'C';
+        std::cout << "楽曲の調は、" << musicChord << "dur です。\n";
+    }
+    else if (selectNum == 1) {
+        //楽曲No.1->スケール
+        do {
+            std::cout << "楽曲の調が可変です。\n任意の調を以下から選択してください。\n";
+
+            char tmp = 'X';
+            for (int i = 0; i < Kstuck; i++) {
+                tmp = mPrac->Cont->key[i][0];
+                std::cout << i << ":" << tmp;
+                if ('a' <= tmp && 'z' >= tmp) {
+                    std::cout << " moll\n";
+                }
+                else {
+                    std::cout << " dur\n";
+                }
+            }
+            do {
+                std::cin >> tmp;
+                chordNum = tmp - '0';
+                if (chordNum < 0 || chordNum >= Kstuck) {
+                    std::cout << "正しい値を入れてください\n";
+                }
+                else {
+                    break;
+                }
+            } while (1);
+            //tmpの中身を選んだ調にする
+            tmp = mPrac->Cont->key[chordNum][0];
+            if ('a' <= tmp && 'z' >= tmp) {
+                std::cout << "和声短音階か旋律短音階か選んでください\n0:和声\n1:旋律\n";
+                do {
+                    std::cin >> generalTmp;
+                    if (generalTmp == 0 || generalTmp == 1) {
+                        typeofChord = generalTmp;
+                        break;
+                    }
+                    else {
+                        std::cout << "正しい値を入力してください。\n";
+                    }
+                } while (1);
+            }
+
+            std::cout << "調:" << tmp << ",種別:" << typeofChord << "\n";
+            std::cout << "以上の条件で作曲します。よろしいですか。y/n\n";
+            confirm = 'N';
+            std::cin >> confirm;
+            if (confirm == "y" || confirm == "Y") {
+                break;
+            }
+        } while (1);
+        
+    }
+    else if (selectNum == 2) {
+        //楽曲No.2->アルペジオ
+        do {
+            std::cout << "楽曲の調が可変です。\n任意の調を以下から選択してください。\n";
+
+            char tmp = 'X';
+            for (int i = 0; i < Kstuck; i++) {
+                tmp = mPrac->Cont->key[i][0];
+                std::cout << i << ":" << tmp;
+                if ('a' <= tmp && 'z' >= tmp) {
+                    std::cout << " moll\n";
+                }
+                else {
+                    std::cout << " dur\n";
+                }
+            }
+            do {
+                std::cin >> tmp;
+                chordNum = tmp - '0';//数値に変換するにはこれでいいらしい。便利だね。
+                if (chordNum >= 0 && chordNum < Kstuck) {
+                    break;
+                }
+                else {
+                    std::cout << "正しい値を入れてください\n";
+                }
+            } while (1);
+            //tmpの中身を選んだ調にする
+            tmp = mPrac->Cont->key[chordNum][0];
+
+            std::cout << "調:" << tmp << ",種別:" << typeofChord << "\n";
+            std::cout << "以上の条件で作曲します。よろしいですか。y/n\n";
+            confirm = 'N';
+            std::cin >> confirm;
+            if (confirm == "y" || confirm == "Y") {
+                break;
+            }
+        } while (1);
+    }
+    else {
+        std::cout << "番号選択が間違っています。\n";
+        exit(1);
+    }
+
+    //世代交代とかやる
     do {
         confirm = 'N';
         for (int i = 0; i < MusicNum; i++) {

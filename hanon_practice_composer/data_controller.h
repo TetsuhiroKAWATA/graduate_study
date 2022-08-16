@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 
-//定数定義(ポインタで示さなくても使えたほうが良いやつ)
+//定数(ポインタで示さなくても使えたほうが良いやつ)
 const int Lega = 3;//最長の長さ(八分音符基準)
 const int Stac = 1;//最短の単位(八分音符基準)
 const int meloMakeNum = 7;//メロディ作成数合計
@@ -19,10 +19,11 @@ const static int MusicNum = 5;//作成する練習曲の数
 static float GproductSum = 0.5;
 static int chromLen = -999;//染色体の長さ。初期集団作るときに設定される
 static char musicChord = NULL;
+static int typeofChord = -999;//和声短音階or旋律短音階。和声が0、旋律が1でひとまず考えておく
 
 class data_controller {
 public:
-	//定数定義する
+	//定数
 	char chord[3] = { '1','3','5' }, notes[7] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H' };
 	char scaleTKeynote[Sstuck][Sline];
 	char keynoteOrder[2][7] = { {'F', 'C', 'G', 'D', 'A', 'E', 'H'},{'H', 'E', 'A', 'D', 'G', 'C', 'F'} };
