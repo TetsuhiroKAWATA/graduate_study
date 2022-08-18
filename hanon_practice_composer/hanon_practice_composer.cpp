@@ -3,6 +3,32 @@
 
 #include "makePractice.h"
 
+void printChord(makePractice* mPrac) {
+
+
+    char tmp = 'X', tmp2 = 'X';
+    for (int i = 0; i < Kstuck; i++) {
+        tmp = mPrac->Cont->key[i][0];//使ってます
+        std::cout << i << ":" << tmp;
+        tmp2 = mPrac->Cont->key[i][1];
+        if (tmp2 == '#')
+            std::cout << "is";
+        else if (tmp2 == 'b') {
+            if (tmp == 'e' || tmp == 'E' || tmp == 'a' || tmp == 'A')
+                std::cout << "s";
+            else
+                std::cout << "es";
+        }
+
+        if ('a' <= tmp && 'z' >= tmp) {
+            std::cout << " moll\n";
+        }
+        else {
+            std::cout << " dur\n";
+        }
+    }
+}
+
 int main()
 {
     //初期値に意味がない系変数
@@ -11,6 +37,8 @@ int main()
     int evaluation = -999;//ユーザが付けた点数入れるやつ、のはず
     int chordNum = -999;//調を選択するやつ
     int generalTmp = -999;//汎用的に仕えるデータの一時保管先(int型)
+    std::string generalSTmp;
+    char tmp = 'X';
 
     //初期値に意味がある系変数
     const int PNum = 5;//練習項目数
@@ -48,31 +76,45 @@ int main()
     //初期集団作成はコントラクタから関数呼び出してやる
     mPrac = new makePractice(selectNum);
 
-    //調を決定する(data_controllerここで定義するのやめたほうが良いかも・・・)
+    //調を決定する
     if (selectNum == 0 || selectNum == 3 || selectNum == 4) {
         //基礎とオクターブと半音階
-        musicChord = 'C';
-        std::cout << "楽曲の調は、" << musicChord << "dur です。\n";
+        mPrac->Cont->chordNum = 0;
+        //Cdurにならないとおかしいのでそうならない場合は考慮してないです
+        std::cout << "楽曲の調は、" << mPrac->Cont->key[mPrac->Cont->chordNum][0] << "dur です。\n";
+        if (selectNum == 0) {
+            //楽曲ナンバー決める。(1～20)
+            do {
+                std::cout << "作成する練習曲の元となる楽曲を選択する必要があります。\n";
+                std::cout << "ハノンの元楽曲につけられた番号を参照し、今回練習したい対象の楽曲の楽曲番号を\n1~20の間で入力してください。\n";
+                std::cin >> generalTmp;
+                if (generalTmp > 0 && generalTmp < 21) {
+                    mPrac->Cont->hanonNum = generalTmp;
+                    std::cout << "ハノンの楽曲番号:" << mPrac->Cont->hanonNum << " をもとに作成します。\nよろしいですか？ y/n\n";
+                    std::cin >> confirm;
+                    if (confirm == "y" || confirm == "Y")
+                        break;
+                    else
+                        std::cout << "正しい値を入れてください。\n";
+                }
+            } while (1);
+        }
     }
     else if (selectNum == 1) {
         //楽曲No.1->スケール
         do {
-            std::cout << "楽曲の調が可変です。\n任意の調を以下から選択してください。\n";
+            std::cout << "楽曲の調が可変です。\n任意の調を以下から番号で選択してください。\n";
 
-            char tmp = 'X';
-            for (int i = 0; i < Kstuck; i++) {
-                tmp = mPrac->Cont->key[i][0];
-                std::cout << i << ":" << tmp;
-                if ('a' <= tmp && 'z' >= tmp) {
-                    std::cout << " moll\n";
+            printChord(mPrac);
+
+            do {
+                std::cin >> generalSTmp;
+                if (mPrac->Cont->checkInt(generalSTmp)) {
+                    chordNum = stoi(generalSTmp);
                 }
                 else {
-                    std::cout << " dur\n";
+                    chordNum = -999;
                 }
-            }
-            do {
-                std::cin >> tmp;
-                chordNum = tmp - '0';
                 if (chordNum < 0 || chordNum >= Kstuck) {
                     std::cout << "正しい値を入れてください\n";
                 }
@@ -87,7 +129,7 @@ int main()
                 do {
                     std::cin >> generalTmp;
                     if (generalTmp == 0 || generalTmp == 1) {
-                        typeofChord = generalTmp;
+                        mPrac->Cont->typeofChord = generalTmp;
                         break;
                     }
                     else {
@@ -96,11 +138,12 @@ int main()
                 } while (1);
             }
 
-            std::cout << "調:" << tmp << ",種別:" << typeofChord << "\n";
+            std::cout << "主音:" << tmp << mPrac->Cont->key[chordNum][1] << ",種別:" << mPrac->Cont->typeofChord << "\n";
             std::cout << "以上の条件で作曲します。よろしいですか。y/n\n";
             confirm = 'N';
             std::cin >> confirm;
             if (confirm == "y" || confirm == "Y") {
+                mPrac->Cont->chordNum = chordNum;
                 break;
             }
         } while (1);
@@ -109,22 +152,18 @@ int main()
     else if (selectNum == 2) {
         //楽曲No.2->アルペジオ
         do {
-            std::cout << "楽曲の調が可変です。\n任意の調を以下から選択してください。\n";
+            std::cout << "楽曲の調が可変です。\n任意の調を以下から番号で選択してください。\n";
 
-            char tmp = 'X';
-            for (int i = 0; i < Kstuck; i++) {
-                tmp = mPrac->Cont->key[i][0];
-                std::cout << i << ":" << tmp;
-                if ('a' <= tmp && 'z' >= tmp) {
-                    std::cout << " moll\n";
+            printChord(mPrac);
+
+            do {
+                std::cin >> generalSTmp;
+                if (mPrac->Cont->checkInt(generalSTmp)) {
+                    chordNum = stoi(generalSTmp);
                 }
                 else {
-                    std::cout << " dur\n";
+                    chordNum = -999;
                 }
-            }
-            do {
-                std::cin >> tmp;
-                chordNum = tmp - '0';//数値に変換するにはこれでいいらしい。便利だね。
                 if (chordNum >= 0 && chordNum < Kstuck) {
                     break;
                 }
@@ -135,11 +174,12 @@ int main()
             //tmpの中身を選んだ調にする
             tmp = mPrac->Cont->key[chordNum][0];
 
-            std::cout << "調:" << tmp << ",種別:" << typeofChord << "\n";
+            std::cout << "主音:" << tmp << mPrac->Cont->key[chordNum][1] << ",種別:" << mPrac->Cont->typeofChord << "\n";
             std::cout << "以上の条件で作曲します。よろしいですか。y/n\n";
             confirm = 'N';
             std::cin >> confirm;
             if (confirm == "y" || confirm == "Y") {
+                mPrac->Cont->chordNum = chordNum;
                 break;
             }
         } while (1);
@@ -148,6 +188,8 @@ int main()
         std::cout << "番号選択が間違っています。\n";
         exit(1);
     }
+    
+    //std::cout <<"Debug::" << mPrac->Cont->chordNum << '\n';
 
     //世代交代とかやる
     do {

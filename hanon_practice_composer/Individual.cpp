@@ -1,10 +1,14 @@
 #include "Individual.h"
 
-Individual::Individual() {
+Individual::Individual(data_controller* d) {
 	//std::cout << "個体作った\n";
+	data = d;
+	//char doNotUse = d->key[0][0];
+	//std::cout << "Eが出たら正解:" << data->notes[2] << "\n";
+	
 	//個体ナンバー管理(Ind[i]のiでやったほうが早そうだけどなんか別のこと考えてたんだよねたぶん・・・)
-	GproductSum+=0.5;
-	productNum = (int)GproductSum;
+	data->GproductSum+=0.5;
+	productNum = (int)data->GproductSum;
 	point = -1;
 	//初期化
 	for (int i = 0; i < 128; i++) {
@@ -13,7 +17,6 @@ Individual::Individual() {
 }
 
 Individual::~Individual() {
-	
 }
 
 void Individual::firstTake(int selectNum) {
@@ -22,10 +25,7 @@ void Individual::firstTake(int selectNum) {
 	switch (selectNum) {
 	case 0:
 		//std::cout << "1~20の初期作成\n";
-		//データの整備する
-		if (chromLen == -999) {
-			chromLen = 128;
-		}
+
 
 		break;
 	case 1:

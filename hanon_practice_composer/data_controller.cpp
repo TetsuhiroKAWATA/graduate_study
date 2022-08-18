@@ -38,6 +38,14 @@ void data_controller::readData(std::string fileName, char* p, int chunkNum, int 
 	fin.close();
 }
 
+//stringŒ^‚ª‘S‚Ä”š‚©Šm‚©‚ß‚é‚Õ‚ë‚®‚ç‚Ş
+bool data_controller::checkInt(std::string input) {
+	if (std::all_of(input.cbegin(), input.cend(), isdigit)) {
+		return true;
+	}
+	return false;
+}
+
 
 
 void data_controller::confirmCorrect(int tate, int yoko) {

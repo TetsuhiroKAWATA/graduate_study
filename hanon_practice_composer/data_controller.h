@@ -2,13 +2,18 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cctype>
+#include <algorithm>
 
 //定数(ポインタで示さなくても使えたほうが良いやつ)
+//※ここに変数は置かない。全部constをつけろ
 const int Lega = 3;//最長の長さ(八分音符基準)
 const int Stac = 1;//最短の単位(八分音符基準)
 const int meloMakeNum = 7;//メロディ作成数合計
-const int meloMakeFrag = 2;//一度に作成するメロディ
-const int meloMakeRep = 2;//メロディ作成繰り返し回数
+const int meloMakeFrag = 2;//一度に作成するメロディ(小節数)
+const int meloMakeRep = 2;//メロディ作成繰り返し回数(右手と左手で2の意味。基本的に変わらないと思う)
+const static int barNum = 8;//作成する小節数(これも基本的に変わらないのでは)
+
 const static int Kstuck = 24;//key.csv読み込み用の2次元配列の要素数その1,最大値は30
 const static int Kline = 4;//上に同じその2
 const static int Sstuck = 3;//scale_tmp_keynote.csv読み込み用の2次元配列の要素数その1
@@ -16,33 +21,35 @@ const static int Sline = 18;//上に同じその2
 const static int MusicNum = 5;//作成する練習曲の数
 
 //グローバル変数系
-static float GproductSum = 0.5;
+/*
 static int chromLen = -999;//染色体の長さ。初期集団作るときに設定される
-static char musicChord = NULL;
+static char musicChord = NULL;//調
 static int typeofChord = -999;//和声短音階or旋律短音階。和声が0、旋律が1でひとまず考えておく
+static int hanonNum = -999;//ハノン1～20の楽曲の際にのみ使用する、楽曲番号を入れておく場所
+*/
 
 class data_controller {
 public:
-	//定数
+	//データ
 	char chord[3] = { '1','3','5' }, notes[7] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H' };
 	char scaleTKeynote[Sstuck][Sline];
 	char keynoteOrder[2][7] = { {'F', 'C', 'G', 'D', 'A', 'E', 'H'},{'H', 'E', 'A', 'D', 'G', 'C', 'F'} };
 	char key[Kstuck][Kline];
 	//chord:和音の音の位置、度数表記, key;調の名前と調号の種類と数、外部から読むわ, keynoteOrder:調号のつき方, 
 	//notes:7音, scaleTKeynote:スケールの臨時記号の数と場所(度数表記)、外部から読む
-	
-	/*以下没、プログラム完成時点で削除
-	int chord[3];//chord.csvのデータ数:3
-	int key[24][3];//key.csvのデータ数:72
-	int keynoteOrder[7][2];//keynote_order.csvのデータ数:14
-	int notes[7];//notes.csvのデータ数(7)
-	int scaleTKeynote[5][3];//scale_tmp_keynote.csvのデータ数(15)
-	//ここまで。領域は最低限しか確保してないのでデータが増えたら領域も増やす必要がある。
-	*/
+
+	float GproductSum = 0.5;//作成されるIndividualに番号をつけるために使ってる数。
+	int chromLen = -999;
+	//char musicChord = NULL;
+	int typeofChord = -999;
+	int hanonNum = -999;
+	int chordNum = -999;
+	char chordProg[barNum];
 
 	//関数
 	data_controller();
 	~data_controller();
+	bool checkInt(std::string input);
 private:
 	//定数系
 
