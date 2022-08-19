@@ -69,11 +69,8 @@ int main()
             std::cout << "その番号には練習項目が割り当てられていません。\n";
         }
     } while (1);
-    //std::cout << "Debug::do_while_finished\n";
-    //std::cout << "Debug::items = " << items[selectNum] << "\n";
 
     //世代交代とかやる
-    //初期集団作成はコントラクタから関数呼び出してやる
     mPrac = new makePractice(selectNum);
 
     //調を決定する
@@ -189,7 +186,8 @@ int main()
         exit(1);
     }
     
-    //std::cout <<"Debug::" << mPrac->Cont->chordNum << '\n';
+    //データ整備をする。
+    mPrac->dataPrepare();
 
     //世代交代とかやる
     do {

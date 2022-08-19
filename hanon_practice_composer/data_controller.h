@@ -19,14 +19,12 @@ const static int Kline = 4;//上に同じその2
 const static int Sstuck = 3;//scale_tmp_keynote.csv読み込み用の2次元配列の要素数その1
 const static int Sline = 18;//上に同じその2
 const static int MusicNum = 5;//作成する練習曲の数
+const static int leftMax = 6;//左手の1小節音数最大
+const static int chordKinds = 3;//楽曲内で使用されるコードの種類
+const static int noteHNum = 12;//ハノンの元曲において、1小節に含まれる最大の音数
 
-//グローバル変数系
-/*
-static int chromLen = -999;//染色体の長さ。初期集団作るときに設定される
-static char musicChord = NULL;//調
-static int typeofChord = -999;//和声短音階or旋律短音階。和声が0、旋律が1でひとまず考えておく
-static int hanonNum = -999;//ハノン1～20の楽曲の際にのみ使用する、楽曲番号を入れておく場所
-*/
+
+const static float mutateProb = 0.01;//突然変異確率
 
 class data_controller {
 public:
@@ -39,17 +37,24 @@ public:
 	//notes:7音, scaleTKeynote:スケールの臨時記号の数と場所(度数表記)、外部から読む
 
 	float GproductSum = 0.5;//作成されるIndividualに番号をつけるために使ってる数。
-	int chromLen = -999;
+	int chromLen;//遺伝子の長さ
 	//char musicChord = NULL;
-	int typeofChord = -999;
-	int hanonNum = -999;
-	int chordNum = -999;
-	char chordProg[barNum];
+	int typeofChord;//和声or旋律
+	int hanonNum;//1~20で使用する楽曲番号
+	int chordNum;//選択された調がkeyの何番目の要素であるか
+	char chordProg[barNum];//コード進行(14151451とか)
+
+	int noteNum[2];//[0]が最小音数、[1]が最大音数
+	int noteNumEnd[2];
+	int beat;//拍子
+	char accompany[chordKinds][leftMax];//伴奏の度数
+	char hanon[noteHNum];//ハノン元曲を入れる場所
 
 	//関数
 	data_controller();
 	~data_controller();
 	bool checkInt(std::string input);
+	void readData(std::string fileName, char* databox, int chunkNum, int lineNum);//linenum:key[30][3]の3のほう
 private:
 	//定数系
 
@@ -60,8 +65,7 @@ private:
 	char textHolder[80];
 	
 	//関数
-	void readData(std::string fileName, char* databox, int chunkNum, int lineNum);//linenum:key[30][3]の3のほう
-
+	
 	//確認用に3秒で作った関数、本筋には関係ない。
 	//雑に作ったので確認の度に確認したい配列の名前をプログラムから指定する必要があるとかいう欠陥があります
 	void confirmCorrect(int tate, int yoko);
