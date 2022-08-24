@@ -10,15 +10,6 @@ data_controller::data_controller() {
 }
 
 data_controller::~data_controller() {
-	delete chord;
-	delete scaleTKeynote;
-	delete keynoteOrder;
-	delete key;
-	delete chordProg;
-	delete noteNum;
-	delete noteNumEnd;
-	delete accompany;
-	delete textHolder;
 }
 
 
@@ -37,7 +28,7 @@ void data_controller::readData(std::string fileName, char* p, int chunkNum, int 
 			break;
 		}
 		else {
-			std::cout << textHolder <<'\n';
+			//std::cout << textHolder <<'\n';
 			for (int j = 0; j < lineNum*2; j+=2) {
 				p[lineNum * i + j/2] = textHolder[j];
 				textHolder[j] = NULL;

@@ -5,7 +5,6 @@ class makePractice {
 public:
 	//変数系
 	Individual* Ind[MusicNum];//個体。
-	int selectedNum;
 	data_controller* Cont;//データいじいじ->staticつけたらうごかなくなったわ
 
 	//関数系

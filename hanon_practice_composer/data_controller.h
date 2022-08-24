@@ -20,15 +20,17 @@ const static int Sstuck = 3;//scale_tmp_keynote.csv読み込み用の2次元配列の要素数
 const static int Sline = 18;//上に同じその2
 const static int MusicNum = 5;//作成する練習曲の数
 const static int leftMax = 6;//左手の1小節音数最大
-const static int chordKinds = 3;//楽曲内で使用されるコードの種類
+const static int chordKinds = 3;//楽曲内で使用されるコードの種類数
 const static int noteHNum = 12;//ハノンの元曲において、1小節に含まれる最大の音数
 
 
-const static float mutateProb = 0.01;//突然変異確率
+const static double mutateProb = 0.01;//突然変異確率
 
 class data_controller {
 public:
 	//データ
+	int selectedNum = -999;//どの種別(基礎、スケールetc.)の練習をするか。
+
 	char chord[3] = { '1','3','5' }, notes[7] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H' };
 	char scaleTKeynote[Sstuck][Sline];
 	char keynoteOrder[2][7] = { {'F', 'C', 'G', 'D', 'A', 'E', 'H'},{'H', 'E', 'A', 'D', 'G', 'C', 'F'} };
@@ -48,7 +50,7 @@ public:
 	int noteNumEnd[2];
 	int beat;//拍子
 	char accompany[chordKinds][leftMax];//伴奏の度数
-	char hanon[noteHNum];//ハノン元曲を入れる場所
+	char hanon[3][noteHNum];//ハノン元曲を入れる場所,hanon[2][0]が最低音の度数、hanon[2][1]が最高音の度数
 
 	//関数
 	data_controller();
