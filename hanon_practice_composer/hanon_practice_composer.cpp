@@ -188,6 +188,8 @@ int main()
     
     //データ整備をする。
     mPrac->dataPrepare();
+    //初期集団作成
+    mPrac->firstTake();
 
     //世代交代とかやる
     do {
@@ -216,11 +218,15 @@ int main()
         }
         else {
             std::cout << "それぞれの楽曲に点数をつけてください。\n";
-            std::cout << "楽曲No.1の採点(暫定)\n";
-            std::cin >> evaluation;
-            std::cout << "楽曲No.2の採点\n";
-            std::cin >> evaluation;
+            for (int i = 0; i < MusicNum; i++) {
+                std::cout << "楽曲No." << i+1 << "の点数\n";
+                std::cin >> mPrac->Ind[i]->point;
+            }
+            for (int i = 0; i < MusicNum; i++) {
+                std::cout << mPrac->Ind[i]->point;
+            }
             std::cout << "楽曲をもう一度作成します\n";
+            //世代交代コマンド
         }
     } while (1);
 

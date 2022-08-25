@@ -25,13 +25,15 @@ const static int noteHNum = 12;//ハノンの元曲において、1小節に含まれる最大の音数
 
 
 const static double mutateProb = 0.01;//突然変異確率
+const static int crossNum = 10;
 
 class data_controller {
 public:
 	//データ
 	int selectedNum = -999;//どの種別(基礎、スケールetc.)の練習をするか。
 
-	char chord[3] = { '1','3','5' }, notes[7] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H' };
+	char chord[4] = { '1','3','5', 0};
+	char notes[8] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H', 0};
 	char scaleTKeynote[Sstuck][Sline];
 	char keynoteOrder[2][7] = { {'F', 'C', 'G', 'D', 'A', 'E', 'H'},{'H', 'E', 'A', 'D', 'G', 'C', 'F'} };
 	char key[Kstuck][Kline];
@@ -51,6 +53,8 @@ public:
 	int beat;//拍子
 	char accompany[chordKinds][leftMax];//伴奏の度数
 	char hanon[3][noteHNum];//ハノン元曲を入れる場所,hanon[2][0]が最低音の度数、hanon[2][1]が最高音の度数
+
+	int Xceil = -999;//Xの上限(1～20で26が現在の最高値)
 
 	//関数
 	data_controller();

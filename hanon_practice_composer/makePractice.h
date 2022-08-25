@@ -12,6 +12,7 @@ public:
 	~makePractice();
 	void printResult();
 	void dataPrepare();
+	void firstTake();
 private:
 	//data_controller* Cont;//データをいじいじするクラスへのポインタ。たぶんプライベートでいい->ダメでした。当たり前だよなぁ！？
 	Individual* newInd[MusicNum];//次世代
