@@ -28,6 +28,15 @@ void Individual::firstTake(int selectNum) {
 	int PT[7];//PTが入る場所を格納
 	int noteRange[2];//小節ごとの音域入れとくやつ
 	std::string tmpS;
+	std::string nowChord[3];//今の小節の和音
+	int nowChordNum[3];//小節の和音の構成音がnotes[]の何処に入ってるか覚えるやつ
+	std::string randomTable[30];
+
+	//Xを入れる
+	for (int i = 1; i <= data->Xceil; i++) {
+		randomTable[i] = "X";
+		randomTable[i] += std::to_string(i);
+	}
 
 	switch (selectNum) {
 	case 0:
@@ -42,6 +51,16 @@ void Individual::firstTake(int selectNum) {
 
 		for (int i = 0; i < meloMakeRep; i++) {
 			for (int j = 0; j < meloMakeNum; j++) {
+				//コード設定
+				for (int k = 0; k < 3; k++) {
+					tmp = (data->chord[k] - '0') + (data->chordProg[j] - '0') - 2;
+					if (tmp > 6)
+						tmp -= 7;
+					nowChord[k] = data->notes[tmp];
+					nowChordNum[k] = tmp;
+					std::cout << nowChordNum[k];
+				}
+
 				//音数
 				noteNum = decideNoteNum(data->noteNum[0], data->noteNum[1]);
 
@@ -104,9 +123,43 @@ void Individual::firstTake(int selectNum) {
 						noteRange[1] += tmp;
 					}
 				}
-				std::cout << "音域:" << noteRange[0] << " ～ " << noteRange[1] << '\n';
+				//std::cout << "音域:" << noteRange[0] << " ～ " << noteRange[1] << '\n';
 
 				//音繋げフェーズ
+				for (int k = 1; k < 8; k++) {
+					if (chrom[j * data->noteNum[1] + (i * 65) + k] ==  "-999") {
+						//このif文内で処理をする
+						tmpS = chrom[j * data->noteNum[1] + (i * 65) + k - 1].substr(0, 1);//一個前の遺伝子の最初の文字
+						if (tmpS == nowChord[0]
+							|| tmpS == nowChord[1]
+							|| tmpS == nowChord[2]) {
+							//和音の構成音、或いは隣接音から選択
+							//Yを繋げる処理もこの中でやる
+							//音を数字に変換
+							//ここに隣接音の処理を入れる
+							if (tmpS == nowChord[0]) {
+								randomTable[data->Xceil] = data->notes[nowChordNum[1]];
+								randomTable[data->Xceil + 1] = data->notes[nowChordNum[2]];
+								std::cout << "randomTable = ";
+								std::cout << randomTable[data->Xceil] << ' ' << randomTable[data->Xceil + 1] << '\n';
+							}
+							else if (tmpS == nowChord[1]) {
+								randomTable[data->Xceil] = data->notes[nowChordNum[0]];
+								randomTable[data->Xceil + 1] = data->notes[nowChordNum[2]];
+								std::cout << randomTable[data->Xceil] << ' ' << randomTable[data->Xceil + 1] << '\n';
+							}
+							else {
+								randomTable[data->Xceil] = data->notes[nowChordNum[0]];
+								randomTable[data->Xceil + 1] = data->notes[nowChordNum[1]];
+								std::cout << randomTable[data->Xceil] << ' ' << randomTable[data->Xceil + 1] << '\n';
+							}
+						}
+						else {
+							//隣接音から選択
+							std::cout << "構成音じゃない";
+						}
+					}
+				}
 
 				//中身確認
 				for (int k = 0; k < 8;k++){
