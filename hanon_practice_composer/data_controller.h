@@ -33,7 +33,7 @@ public:
 	int selectedNum = -999;//どの種別(基礎、スケールetc.)の練習をするか。
 
 	char chord[4] = { '1','3','5', 0};
-	char notes[8] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H', 0};
+	char notes[15] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H', 'C', 'D', 'E', 'F', 'G', 'A', 'H', 0};
 	char scaleTKeynote[Sstuck][Sline];
 	char keynoteOrder[2][7] = { {'F', 'C', 'G', 'D', 'A', 'E', 'H'},{'H', 'E', 'A', 'D', 'G', 'C', 'F'} };
 	char key[Kstuck][Kline];
@@ -42,7 +42,6 @@ public:
 
 	float GproductSum = 0.5;//作成されるIndividualに番号をつけるために使ってる数。
 	int chromLen;//遺伝子の長さ
-	//char musicChord = NULL;
 	int typeofChord;//和声or旋律
 	int hanonNum;//1~20で使用する楽曲番号
 	int chordNum;//選択された調がkeyの何番目の要素であるか
