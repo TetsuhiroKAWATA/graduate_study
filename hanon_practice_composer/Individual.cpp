@@ -24,13 +24,13 @@ void Individual::firstTake(int selectNum) {
 	//std::cout << "Debug::selectedNum = " << selectNum << '\n';
 
 	int noteNum;//音数を入れる
-	int tmp, tmp2 = 0;//tmp
+	int tmp, tmp2 = 0, tmp3;//tmp
 	int PT[7];//PTが入る場所を格納
 	int noteRange[2];//小節ごとの音域入れとくやつ
 	std::string tmpS;
 	std::string nowChord[3];//今の小節の和音
 	int nowChordNum[3];//小節の和音の構成音がnotes[]の何処に入ってるか覚えるやつ
-	std::string randomTable[31];
+	std::string randomTable[35];
 	int counter;
 
 	//Xを入れる
@@ -52,18 +52,17 @@ void Individual::firstTake(int selectNum) {
 
 		for (int i = 0; i < meloMakeRep; i++) {
 			for (int j = 0; j < meloMakeNum; j++) {
-
+				//色々初期化
 				counter = data->Xceil;
-				
-				std::cout << "nowChordNum = ";
+				chrom[j * data->noteNum[1] + (i * 65) + 1] = "-999";
+
+				//std::cout << "nowChordNum = ";
 				//コード設定
 				for (int k = 0; k < 3; k++) {
 					tmp = (data->chord[k] - '0') + (data->chordProg[j] - '0') - 2;
 					nowChord[k] = data->notes[tmp];
 					nowChordNum[k] = tmp+1;
-					std::cout << nowChord[k] << ",";
 				}
-				std::cout << '\n';
 
 				//音数
 				noteNum = decideNoteNum(data->noteNum[0], data->noteNum[1]);
@@ -85,10 +84,10 @@ void Individual::firstTake(int selectNum) {
 				}
 
 				for (int k = 0; k < tmp; k++) {
-					if (decideNoteNum(1, 2) == 1)
-						chrom[PT[k]] = "T";
-					else
+					if (decideNoteNum(1, restProb) == 1)
 						chrom[PT[k]] = "P";
+					else
+						chrom[PT[k]] = "T";
 				}
 
 				//始めの音決める
@@ -112,7 +111,12 @@ void Individual::firstTake(int selectNum) {
 				//1始まりのはず
 				noteRange[0] = data->hanon[2][0] - '0';
 				noteRange[1] = data->hanon[2][1] - '0';
-				if (noteRange[1] < tmp2 || noteRange[0] > tmp2 ) {
+				noteRange[0] += nowChordNum[0];
+				noteRange[1] += nowChordNum[0];
+				noteRange[0]--;
+				noteRange[1]--;
+				/*没になった、ランダムで決めるパターン
+				if (noteRange[1] < tmp2 || noteRange[0] > tmp2) {
 					noteRange[0] += (tmp2 - noteRange[1]);
 					noteRange[1] += (tmp2 - noteRange[1]);
 				}
@@ -127,21 +131,20 @@ void Individual::firstTake(int selectNum) {
 						noteRange[0] += tmp;
 						noteRange[1] += tmp;
 					}
-				}
+				}*/
 				std::cout << "音域:" << noteRange[0] << " ～ " << noteRange[1] << '\n';
 
 				//音繋げフェーズ
 				tmp = 0;
 				for (int k = 1; k < 8; k++) {
 					counter -= tmp;
-					std::cout << "tmp = " << tmp << '\n';
 					tmp = 0;
-					std::cout << "counter = " << counter << '\n';
 					if (chrom[j * data->noteNum[1] + (i * 65) + k] ==  "-999") {
 						//このif文内で処理をする
 						tmpS = chrom[j * data->noteNum[1] + (i * 65) + k - 1].substr(0, 1);//一個前の遺伝子の最初の文字
 						
 						//直前のTP以外の要素を探す
+						//tmpSに直前の音(C4とか)が入る必要があるため、Yだったら下で処理を行う
 						int X = 1;
 						do {
 							if (tmpS == "T" || tmpS == "P") {
@@ -152,6 +155,43 @@ void Individual::firstTake(int selectNum) {
 								break;
 							}
 						} while (1);
+
+						//Yだった時の処理
+						if (tmpS == "Y") {
+							int l = 1;
+							do {
+								if (chrom[j * data->noteNum[1] + (i * 65) + k - X - l].substr(0, 1) == "X") {
+									tmp2 = stoi(chrom[j * data->noteNum[1] + (i * 65) + k - X - l].substr(1));
+									break;
+								}
+								l++;
+							} while (1);
+							
+							if (1 <= tmp2 && tmp2 <= 7) {
+								char tmpC = data->hanon[0][tmp2 - 1];
+								tmp3 = int(tmpC - '0');
+							}
+							else if (8 <= tmp2 && tmp2 <= 13) {
+								char tmpC = data->hanon[0][tmp2 - 7 - 1];
+								tmp3 = int(tmpC - '0');
+							}
+							else if (14 <= tmp2 && tmp2 <= 20) {
+								char tmpC = data->hanon[1][tmp2 - 13 - 1];
+								tmp3 = int(tmpC - '0');
+							}
+							else if (21 <= tmp2 && tmp2 <= 26) {
+								char tmpC = data->hanon[1][tmp2 - 20 - 1];
+								tmp3 = int(tmpC - '0');
+							}
+							else {
+								std::cout << "直前がYだった時の処理が上手くいっていません\n";
+							}
+							//tmp3に入るのがXの中身になっており、Yの中身になっていない
+							tmp3 += nowChordNum[0];
+							tmp3 -= 1;
+							tmpS = data->notes[tmp3 - 1];
+							//std::cout << "tmp2 = " << tmp2 << ", tmp3 = " << tmp3 << '\n';
+						}
 
 						//コードの構成音だった時の処理
 						if (tmpS == nowChord[0]
@@ -230,6 +270,7 @@ void Individual::firstTake(int selectNum) {
 
 						//隣接音を選択用テーブルに追加
 						//汚すぎるコード直したい
+						//std::cout << "tmpS = " << tmpS << '\n';
 						if (tmpS == "C")
 							tmp2 = 1;
 						else if (tmpS == "D")
@@ -244,44 +285,68 @@ void Individual::firstTake(int selectNum) {
 							tmp2 = 6;
 						else if (tmpS == "H")
 							tmp2 = 7;
+						else
+							std::cout << "要素が不正です。\n";
 
-						if (chrom[j * data->noteNum[1] + (i * 65) + k - X].substr(1, 1) == "5") {
+						if (chrom[j * data->noteNum[1] + (i * 65) + k - X].substr(0, 1) != "Y"
+							&& chrom[j * data->noteNum[1] + (i * 65) + k - X].substr(1, 1) == "5") {
 							tmp2 += 7;
 						}
 
 						//下の音
-						if (1 <= tmp2 - 1 && tmp2 - 1 <= 10) {
-							randomTable[counter++] = data->notes[tmp2 - 1];
+						if (2 <= tmp2 && tmp2 <= 10 && noteRange[0] <= tmp2-1 && tmp2-1 <= noteRange[1]) {
+							randomTable[counter++] = data->notes[tmp2 - 2];
 							tmp++;
-							if (tmp2 < 8)
+							if (tmp2-1 < 8)
 								randomTable[counter - 1] += "4";
 							else
 								randomTable[counter - 1] += "5";
 						}
 
 						//上の音
-						if (1 <= tmp2 + 1 && tmp2 + 1 <= 10) {
-							randomTable[counter++] = data->notes[tmp2 + 1];
+						if (1 <= tmp2 && tmp2 <= 9 && noteRange[0] <= tmp2+1 && tmp2+1 <= noteRange[1]) {
+							randomTable[counter++] = data->notes[tmp2];
 							tmp++;
-							if (tmp2 < 8)
+							if (tmp2+1 < 8)
 								randomTable[counter - 1] += "4";
 							else
 								randomTable[counter - 1] += "5";
 						}
 
-						std::cout << "現在のテーブル状況:";
-						for (int j = 0; j < counter; j++) {
-							std::cout << randomTable[j] << ",";
+						//選んで入れる
+						tmp2 = decideNoteNum(0, counter - 1);
+						chrom[j * data->noteNum[1] + (i * 65) + k] = randomTable[tmp2];
+
+						//Yを繋げる処理
+						if (randomTable[tmp2].substr(0, 1) == "X") {
+							int l = 0;
+							do {
+								l++;
+								if (chrom[j * data->noteNum[1] + (i * 65) + k + l] == "-999") {
+									chrom[j * data->noteNum[1] + (i * 65) + k + l] = "Y";
+									break;
+								}
+							} while (1);
+
+							tmp3 = stoi(randomTable[tmp2].substr(1));
+							if ((8 <= tmp3 && tmp3 <= 13) || (21 <= tmp3 && tmp3 <= 26)) {
+								do {
+									l++;
+									if (chrom[j * data->noteNum[1] + (i * 65) + k + l] == "-999") {
+										chrom[j * data->noteNum[1] + (i * 65) + k + l] = "Y";
+										break;
+									}
+								} while (1);
+							}
 						}
-						std::cout << "\n";
 					}
 				}
 
 				//中身確認
 				for (int k = 0; k < 8;k++){
-					std::cout << chrom[j * data->noteNum[1] + (i * 65) + k];
+					std::cout << chrom[j * data->noteNum[1] + (i * 65) + k] << ", ";
 				}
-				std::cout << '\n';
+				std::cout << "\n\n";
 			}
 		}
 
