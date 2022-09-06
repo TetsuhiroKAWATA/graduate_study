@@ -19,6 +19,49 @@ Individual::Individual(data_controller* d) {
 Individual::~Individual() {
 }
 
+int Individual::seekTP(std::string tmpS, int num) {
+	int X = 1;
+	do {
+		if (tmpS == "T" || tmpS == "P") {
+			X++;
+			tmpS = chrom[num - X].substr(0, 1);
+		}
+		else {
+			break;
+		}
+	} while (1);
+
+	return num - X;
+}
+
+int Individual::defNoteNum(std::string tmpS, int num) {
+	int tmp = 0;
+
+	if (tmpS == "C")
+		tmp = 1;
+	else if (tmpS == "D")
+		tmp = 2;
+	else if (tmpS == "E")
+		tmp = 3;
+	else if (tmpS == "F")
+		tmp = 4;
+	else if (tmpS == "G")
+		tmp = 5;
+	else if (tmpS == "A")
+		tmp = 6;
+	else if (tmpS == "H")
+		tmp = 7;
+	else
+		std::cout << "要素が不正です。\n";
+
+	if (chrom[num].substr(0, 1) != "Y"
+		&& chrom[num].substr(1, 1) == "5") {
+		tmp += 7;
+	}
+
+	return tmp;
+}
+
 void Individual::firstTake(int selectNum) {
 	//std::cout << "初期個体作成\n";//makePractice.cppで任意の数読んでるので大丈夫
 	//std::cout << "Debug::selectedNum = " << selectNum << '\n';
@@ -68,7 +111,6 @@ void Individual::firstTake(int selectNum) {
 				noteNum = decideNoteNum(data->noteNum[0], data->noteNum[1]);
 
 				//リズム
-				//1でT,2でPを入れるようになっている
 				tmp = data->noteNum[1] - noteNum;//PTの数
 				for (int k = 0; k < tmp; k++) {
 					do {
@@ -83,6 +125,7 @@ void Individual::firstTake(int selectNum) {
 					} while (1);
 				}
 
+				//TP決定
 				for (int k = 0; k < tmp; k++) {
 					if (decideNoteNum(1, restProb) == 1)
 						chrom[PT[k]] = "P";
@@ -145,23 +188,15 @@ void Individual::firstTake(int selectNum) {
 						
 						//直前のTP以外の要素を探す
 						//tmpSに直前の音(C4とか)が入る必要があるため、Yだったら下で処理を行う
-						int X = 1;
-						do {
-							if (tmpS == "T" || tmpS == "P") {
-								X++;
-								tmpS = chrom[j * data->noteNum[1] + (i * 64) + k - X].substr(0, 1);
-							}
-							else {
-								break;
-							}
-						} while (1);
+						int X = seekTP(tmpS, j * data->noteNum[1] + (i * 64) + k);
+						tmpS = chrom[X].substr(0, 1);
 
 						//Yだった時の処理
 						if (tmpS == "Y") {
 							int l = 1;
 							do {
-								if (chrom[j * data->noteNum[1] + (i * 64) + k - X - l].substr(0, 1) == "X") {
-									tmp2 = stoi(chrom[j * data->noteNum[1] + (i * 64) + k - X - l].substr(1));
+								if (chrom[X - l].substr(0, 1) == "X") {
+									tmp2 = stoi(chrom[X - l].substr(1));
 									break;
 								}
 								l++;
@@ -186,7 +221,6 @@ void Individual::firstTake(int selectNum) {
 							else {
 								std::cout << "直前がYだった時の処理が上手くいっていません\n";
 							}
-							//tmp3に入るのがXの中身になっており、Yの中身になっていない
 							tmp3 += nowChordNum[0];
 							tmp3 -= 1;
 							tmpS = data->notes[tmp3 - 1];
@@ -271,27 +305,7 @@ void Individual::firstTake(int selectNum) {
 						//隣接音を選択用テーブルに追加
 						//汚すぎるコード直したい
 						//std::cout << "tmpS = " << tmpS << '\n';
-						if (tmpS == "C")
-							tmp2 = 1;
-						else if (tmpS == "D")
-							tmp2 = 2;
-						else if (tmpS == "E")
-							tmp2 = 3;
-						else if (tmpS == "F")
-							tmp2 = 4;
-						else if (tmpS == "G")
-							tmp2 = 5;
-						else if (tmpS == "A")
-							tmp2 = 6;
-						else if (tmpS == "H")
-							tmp2 = 7;
-						else
-							std::cout << "要素が不正です。\n";
-
-						if (chrom[j * data->noteNum[1] + (i * 64) + k - X].substr(0, 1) != "Y"
-							&& chrom[j * data->noteNum[1] + (i * 64) + k - X].substr(1, 1) == "5") {
-							tmp2 += 7;
-						}
+						tmp2 = defNoteNum(tmpS, X);
 
 						//下の音
 						if (2 <= tmp2 && tmp2 <= 10 && noteRange[0] <= tmp2-1 && tmp2-1 <= noteRange[1]) {
@@ -351,34 +365,10 @@ void Individual::firstTake(int selectNum) {
 			//8.16小節目を作成
 			//音数決定
 			noteNum = decideNoteNum(data->noteNumEnd[0], data->noteNumEnd[1]);
-			//小節の初めの音を決める
-			tmp = decideNoteNum(1, 8);
-			switch (tmp) {
-			case 1:
-				chrom[i * 64 + 56] = "C4";
-				break;
-			case 2:
-				chrom[i * 64 + 56] = "D4";
-				break;
-			case 3:
-				chrom[i * 64 + 56] = "E4";
-				break;
-			case 4:
-				chrom[i * 64 + 56] = "F4";
-				break;
-			case 5:
-				chrom[i * 64 + 56] = "G4";
-				break;
-			case 6:
-				chrom[i * 64 + 56] = "A4";
-				break;
-			case 7:
-				chrom[i * 64 + 56] = "H4";
-				break;
-			case 8:
-				chrom[i * 64 + 56] = "C5";
-				break;
-			}
+			std::cout << "最後の小節の音数:" << noteNum << '\n';
+
+			chrom[i * 64 + 56] = "-999";
+			chrom[i * 64 + 57] = "-999";
 
 			//最後の音をPかTに
 			tmp = decideNoteNum(0, 1);
@@ -388,9 +378,44 @@ void Individual::firstTake(int selectNum) {
 				chrom[i * 64 + 63] = "P";
 
 			//残りのPTの位置を決める
+			tmp = data->beat * 2 - noteNum - 1;//PTの数
+			for (int j = 0; j < tmp; j++) {
+				do {
+					int k;
+					PT[j] = decideNoteNum(i * 64 + 57, i* 64 + 62);
+					for (k = 0; k < j; k++) {
+						if (PT[j] == PT[k])
+							break;
+					}
+					if (j == k)
+						break;
+				} while (1);
+			}
 
+			//決めた位置に入れる
+			for (int j = 0; j < tmp; j++) {
+				if (decideNoteNum(1, restProb) == 1)
+					chrom[PT[j]] = "P";
+				else
+					chrom[PT[j]] = "T";
+			}
 
-			for (int j = noteNum; j > 0; j--) {
+			//音を決める
+			tmp = noteNum;
+			for (int j = 7; j > 0; j--) {
+				if (chrom[i * 64 + 55 + j] == "-999") {
+					if (tmp == noteNum) {
+						tmp2 = decideNoteNum(0, 1);
+						if (tmp2 == 1)
+							chrom[i * 64 + 55 + j] = "C4";
+						else
+							chrom[i * 64 + 55 + j] = "C5";
+						tmp--;
+					}
+					else {
+
+					}
+				}
 			}
 		}
 

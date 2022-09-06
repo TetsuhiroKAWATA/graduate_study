@@ -38,7 +38,7 @@ void makePractice::dataPrepare() {
 		//‰¹”
 		Cont->noteNum[0] = 4;
 		Cont->noteNum[1] = 8;
-		Cont->noteNumEnd[0] = 1;
+		Cont->noteNumEnd[0] = 2;//1‚Ì—\’è‚¾‚Á‚½‚¯‚Ç“s‡ã2‚É•ÏX
 		Cont->noteNumEnd[1] = 6;
 
 		//”q
