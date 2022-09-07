@@ -19,52 +19,7 @@ Individual::Individual(data_controller* d) {
 Individual::~Individual() {
 }
 
-int Individual::seekTP(std::string tmpS, int num) {
-	int X = 1;
-	do {
-		if (tmpS == "T" || tmpS == "P") {
-			X++;
-			tmpS = chrom[num - X].substr(0, 1);
-		}
-		else {
-			break;
-		}
-	} while (1);
-
-	return num - X;
-}
-
-int Individual::defNoteNum(std::string tmpS, int num) {
-	int tmp = 0;
-
-	if (tmpS == "C")
-		tmp = 1;
-	else if (tmpS == "D")
-		tmp = 2;
-	else if (tmpS == "E")
-		tmp = 3;
-	else if (tmpS == "F")
-		tmp = 4;
-	else if (tmpS == "G")
-		tmp = 5;
-	else if (tmpS == "A")
-		tmp = 6;
-	else if (tmpS == "H")
-		tmp = 7;
-	else
-		std::cout << "óvëfÇ™ïsê≥Ç≈Ç∑ÅB\n";
-
-	if (chrom[num].substr(0, 1) != "Y"
-		&& chrom[num].substr(1, 1) == "5") {
-		tmp += 7;
-	}
-
-	return tmp;
-}
-
 void Individual::firstTake(int selectNum) {
-	//std::cout << "èâä˙å¬ëÃçÏê¨\n";//makePractice.cppÇ≈îCà”ÇÃêîì«ÇÒÇ≈ÇÈÇÃÇ≈ëÂè‰ïv
-	//std::cout << "Debug::selectedNum = " << selectNum << '\n';
 
 	int noteNum;//âπêîÇì¸ÇÍÇÈ
 	int tmp, tmp2 = 0, tmp3;//tmp
@@ -74,6 +29,7 @@ void Individual::firstTake(int selectNum) {
 	std::string nowChord[3];//ç°ÇÃè¨êﬂÇÃòaâπ
 	int nowChordNum[3];//è¨êﬂÇÃòaâπÇÃç\ê¨âπÇ™notes[]ÇÃâΩèàÇ…ì¸Ç¡ÇƒÇÈÇ©äoÇ¶ÇÈÇ‚Ç¬
 	std::string randomTable[35];
+	std::string randomTableEnd[5];
 	int counter;
 
 	//XÇì¸ÇÍÇÈ
@@ -236,7 +192,7 @@ void Individual::firstTake(int selectNum) {
 							//âπÇêîéöÇ…ïœä∑
 							if (tmpS == nowChord[0]) {
 								if (noteRange[0] <= nowChordNum[1] && nowChordNum[1] <= noteRange[1]) {
-									randomTable[counter++] = data->notes[nowChordNum[1]-1];
+									randomTable[counter++] = data->notes[nowChordNum[1] - 1];
 									tmp++;
 									if (nowChordNum[1] <= 7) {
 										randomTable[counter - 1] += "4";
@@ -246,7 +202,7 @@ void Individual::firstTake(int selectNum) {
 									}
 								}
 								if (noteRange[0] <= nowChordNum[2] && nowChordNum[2] <= noteRange[1]) {
-									randomTable[counter++] = data->notes[nowChordNum[2]-1];
+									randomTable[counter++] = data->notes[nowChordNum[2] - 1];
 									tmp++;
 									if (nowChordNum[2] <= 7) {
 										randomTable[counter - 1] += "4";
@@ -258,7 +214,7 @@ void Individual::firstTake(int selectNum) {
 							}
 							else if (tmpS == nowChord[1]) {
 								if (noteRange[0] <= nowChordNum[0] && nowChordNum[0] <= noteRange[1]) {
-									randomTable[counter++] = data->notes[nowChordNum[0]-1];
+									randomTable[counter++] = data->notes[nowChordNum[0] - 1];
 									tmp++;
 									if (nowChordNum[0] <= 7) {
 										randomTable[counter - 1] += "4";
@@ -268,7 +224,7 @@ void Individual::firstTake(int selectNum) {
 									}
 								}
 								if (noteRange[0] <= nowChordNum[2] && nowChordNum[2] <= noteRange[1]) {
-									randomTable[counter++] = data->notes[nowChordNum[2]-1];
+									randomTable[counter++] = data->notes[nowChordNum[2] - 1];
 									tmp++;
 									if (nowChordNum[2] <= 7) {
 										randomTable[counter - 1] += "4";
@@ -280,7 +236,7 @@ void Individual::firstTake(int selectNum) {
 							}
 							else {
 								if (noteRange[0] <= nowChordNum[0] && nowChordNum[0] <= noteRange[1]) {
-									randomTable[counter++] = data->notes[nowChordNum[0]-1];
+									randomTable[counter++] = data->notes[nowChordNum[0] - 1];
 									tmp++;
 									if (nowChordNum[0] <= 7) {
 										randomTable[counter - 1] += "4";
@@ -290,7 +246,7 @@ void Individual::firstTake(int selectNum) {
 									}
 								}
 								if (noteRange[0] <= nowChordNum[1] && nowChordNum[1] <= noteRange[1]) {
-									randomTable[counter++] = data->notes[nowChordNum[1]-1];
+									randomTable[counter++] = data->notes[nowChordNum[1] - 1];
 									tmp++;
 									if (nowChordNum[1] <= 7) {
 										randomTable[counter - 1] += "4";
@@ -400,9 +356,10 @@ void Individual::firstTake(int selectNum) {
 					chrom[PT[j]] = "T";
 			}
 
-			//âπÇåàÇﬂÇÈ
+			//âπÇåàÇﬂÇÈÅAâπàÊÇÕ1Å`8
 			tmp = noteNum;
 			for (int j = 7; j > 0; j--) {
+				counter = 0;
 				if (chrom[i * 64 + 55 + j] == "-999") {
 					if (tmp == noteNum) {
 						tmp2 = decideNoteNum(0, 1);
@@ -413,7 +370,57 @@ void Individual::firstTake(int selectNum) {
 						tmp--;
 					}
 					else {
+						//àÍå¬å„ÇÃâπÇ™âΩÇ©ÅH
+						tmpS = chrom[i * 64 + 55 + j + 1].substr(0, 1);
+						int X = 1;
+						do {
+							if (tmpS == "T" || tmpS == "P") {
+								X++;
+								tmpS = chrom[i * 64 + 55 + j + X].substr(0, 1);
+							}
+							else {
+								break;
+							}
+						} while (1);
+						//âπÇêîéöÇ…
+						tmp2 = defNoteNum(tmpS, i * 64 + 55 + j + X);
+						//std::cout << i * 64+55+j << ":tmpS = " << tmpS << ", tmp2 = " << tmp2 << '\n';
 
+						//ó◊ê⁄
+						if (1 <= tmp2 + 1 && tmp2 + 1 <= 8) {
+							randomTableEnd[counter++] = data->notes[tmp2];
+							if (tmp2 + 1 == 8)
+								randomTableEnd[counter - 1] += "5";
+							else
+								randomTableEnd[counter - 1] += "4";
+						}
+						if (1 <= tmp2 - 1 && tmp2 - 1 <= 8) {
+							randomTableEnd[counter++] = data->notes[tmp2 - 2];
+							randomTableEnd[counter - 1] += "4";
+						}
+						//ç\ê¨âπ
+						if (tmp2 == 1) {
+							randomTableEnd[counter++] = data->notes[2];
+							randomTableEnd[counter - 1] += "4";
+							randomTableEnd[counter++] = data->notes[4];
+							randomTableEnd[counter - 1] += "4";
+						}
+						else if (tmp2 == 3) {
+							randomTableEnd[counter++] = data->notes[0];
+							randomTableEnd[counter - 1] += "4";
+							randomTableEnd[counter++] = data->notes[4];
+							randomTableEnd[counter - 1] += "4";
+						}
+						else if (tmp2 == 5) {
+							randomTableEnd[counter++] = data->notes[0];
+							randomTableEnd[counter - 1] += "4";
+							randomTableEnd[counter++] = data->notes[2];
+							randomTableEnd[counter - 1] += "4";
+						}
+
+						//ëIÇ‘
+						tmp2 = decideNoteNum(0, counter - 1);
+						chrom[i * 64 + 55 + j] = randomTableEnd[tmp2];
 					}
 				}
 			}
@@ -450,4 +457,49 @@ void Individual::firstTake(int selectNum) {
 int Individual::decideNoteNum(int lower, int upper) {
 	int res = lower + rand() % (upper - lower + 1);
 	return res;
+}
+
+//ìnÇµÇΩâπÇ™ëÊâΩâπÇ©ï‘Ç∑ä÷êî
+int Individual::defNoteNum(std::string tmpS, int num) {
+	int tmp = 0;
+
+	if (tmpS == "C")
+		tmp = 1;
+	else if (tmpS == "D")
+		tmp = 2;
+	else if (tmpS == "E")
+		tmp = 3;
+	else if (tmpS == "F")
+		tmp = 4;
+	else if (tmpS == "G")
+		tmp = 5;
+	else if (tmpS == "A")
+		tmp = 6;
+	else if (tmpS == "H")
+		tmp = 7;
+	else
+		std::cout << "óvëfÇ™ïsê≥Ç≈Ç∑ÅB\n";
+
+	if (chrom[num].substr(0, 1) != "Y"
+		&& chrom[num].substr(1, 1) == "5") {
+		tmp += 7;
+	}
+
+	return tmp;
+}
+
+//íºëOÇÃTPà»äOÇÃóvëfÇÃìYÇ¶éöÇï‘Ç∑ä÷êî
+int Individual::seekTP(std::string tmpS, int num) {
+	int X = 1;
+	do {
+		if (tmpS == "T" || tmpS == "P") {
+			X++;
+			tmpS = chrom[num - X].substr(0, 1);
+		}
+		else {
+			break;
+		}
+	} while (1);
+
+	return num - X;
 }

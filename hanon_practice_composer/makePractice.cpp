@@ -78,6 +78,40 @@ void makePractice::firstTake() {
 	}
 }
 
+void makePractice::sort(int lb, int ub) {
+	int i, j, k;
+	double pivot;
+	Individual* tmp;
+
+	if (lb < ub) {
+		k = (lb + ub) / 2;
+		pivot = Ind[k]->point;
+		i = lb;
+		j = ub;
+
+		do {
+			while (Ind[i]->point < pivot)
+				i++;
+			while (Ind[j]->point > pivot)
+				j--;
+			if (i <= j) {
+				tmp = Ind[i];
+				Ind[i] = Ind[j];
+				Ind[j] = tmp;
+				i++;
+				j--;
+			}
+		} while (i <= j);
+		sort(lb, j);
+		sort(i, ub);
+	}
+}
+
+void makePractice::alternate() {
+	//eŒÂ‘Ì‚ð‘I‘ðAŒð³
+	
+}
+
 void makePractice::printResult() {
 	std::cout << "‚Õ‚è‚ñ‚Æ‚è‚´‚é‚Æ\n";
 }

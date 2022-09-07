@@ -222,11 +222,14 @@ int main()
                 std::cout << "楽曲No." << i+1 << "の点数\n";
                 std::cin >> mPrac->Ind[i]->point;
             }
+            //点数順に並び替え
+            mPrac->sort(0, MusicNum - 1);
             for (int i = 0; i < MusicNum; i++) {
                 std::cout << mPrac->Ind[i]->point;
             }
             std::cout << "楽曲をもう一度作成します\n";
             //世代交代コマンド
+            mPrac->alternate();
         }
     } while (1);
 

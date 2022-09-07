@@ -21,4 +21,5 @@ public:
 private:
 	int seekTP(std::string tmpS, int num);//名前はseekTPだけど、TPではないchromの添え字を返す関数
 	int defNoteNum(std::string tmpS, int num);//対象のC4等の要素を数値に変換する 引数：変換したい文字、その文字の添え字(chrom上)
+
 };
