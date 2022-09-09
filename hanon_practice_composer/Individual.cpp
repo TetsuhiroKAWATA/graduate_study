@@ -7,8 +7,8 @@ Individual::Individual(data_controller* d) {
 	//std::cout << "Eが出たら正解:" << data->notes[2] << "\n";
 	
 	//個体ナンバー管理(Ind[i]のiでやったほうが早そうだけどなんか別のこと考えてたんだよねたぶん・・・)
-	data->GproductSum+=0.5;
-	productNum = (int)data->GproductSum;
+	//data->GproductSum+=0.5;
+	//productNum = (int)data->GproductSum;
 	point = -1;
 	//初期化
 	for (int i = 0; i < 128; i++) {
@@ -41,7 +41,7 @@ void Individual::firstTake(int selectNum) {
 	switch (selectNum) {
 	case 0:
 		std::cout << "1~20の初期作成\n";
-		std::cout << "productNum = " << productNum << '\n';
+		//std::cout << "productNum = " << productNum << '\n';
 
 		//初期集団作る
 		// 初期化
@@ -321,7 +321,7 @@ void Individual::firstTake(int selectNum) {
 			//8.16小節目を作成
 			//音数決定
 			noteNum = decideNoteNum(data->noteNumEnd[0], data->noteNumEnd[1]);
-			std::cout << "最後の小節の音数:" << noteNum << '\n';
+			//std::cout << "最後の小節の音数:" << noteNum << '\n';
 
 			chrom[i * 64 + 56] = "-999";
 			chrom[i * 64 + 57] = "-999";
@@ -426,12 +426,7 @@ void Individual::firstTake(int selectNum) {
 			}
 		}
 
-		for (int i = 0; i < 16; i++) {
-			for (int j = 0; j < 8; j++) {
-				std::cout << i * 8 + j << "= " << chrom[i * 8 + j] << ", ";
-			}
-			std::cout << "\n";
-		}
+		printChrom();
 
 		break;
 	case 1:
@@ -502,4 +497,75 @@ int Individual::seekTP(std::string tmpS, int num) {
 	} while (1);
 
 	return num - X;
+}
+
+void Individual::cross(Individual* p1, Individual* p2) {
+	int X = 0, counter = 0;
+
+	for (int i = 0; i < crossNum; i++) {
+		points[i] = decideNoteNum(0, data->chromLen - 1);
+	}
+	//並び替え
+	//同じ数字が2回選ばれることもあるけど、まあ、それはそれということで
+	sort(0, crossNum - 1);
+
+	//新世代誕生の瞬間
+	for (int i = 0; i < data->chromLen; i++) {
+		if (i == points[counter]) {
+			X = X * (-1) + 1;
+			counter++;
+		}
+
+		if (X == 0) {
+			chrom[i] = p1->chrom[i];
+		}
+		else if (X == 1) {
+			chrom[i] = p2->chrom[i];
+		}
+		else {
+			std::cout << "計算が間違っています";
+			exit(1);
+		}
+	}
+}
+
+void Individual::sort(int lb, int ub) {
+	int i, j, k;
+	double pivot;
+	int tmp;
+
+	if (lb < ub) {
+		k = (lb + ub) / 2;
+		pivot = points[k];
+		i = lb;
+		j = ub;
+
+		do {
+			while (points[i] < pivot)
+				i++;
+			while (points[j] > pivot)
+				j--;
+			if (i <= j) {
+				tmp = points[i];
+				points[i] = points[j];
+				points[j] = tmp;
+				i++;
+				j--;
+			}
+		} while (i <= j);
+		sort(lb, j);
+		sort(i, ub);
+	}
+}
+
+void Individual::printChrom() {
+
+	for (int i = 0; i < 16; i++) {
+		for (int j = 0; j < 8; j++) {
+			std::cout << i * 8 + j << "= " << chrom[i * 8 + j] << ", ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "\n";
+
 }

@@ -195,7 +195,7 @@ int main()
     do {
         confirm = 'N';
         for (int i = 0; i < MusicNum; i++) {
-            std::cout << i + 1 << ":music" << mPrac->Ind[i]->productNum << "\n";
+            std::cout << i + 1 << ":music" << i+1 << "\n";
             //std::cout << "Debug::zantei\n";
         }
         std::cout << "最終結果としたい楽曲はありましたか？ y/n\n";
@@ -223,17 +223,17 @@ int main()
                 std::cin >> mPrac->Ind[i]->point;
             }
             //点数順に並び替え
-            mPrac->sort(0, MusicNum - 1);
-            for (int i = 0; i < MusicNum; i++) {
+            mPrac->sort(0, MusicNum - 1);//エリートやらねえからいらない関数なんだけど作っちゃったしやる可能性もあるから残しとくわ
+            /*for (int i = 0; i < MusicNum; i++) {
                 std::cout << mPrac->Ind[i]->point;
-            }
+            }*/
             std::cout << "楽曲をもう一度作成します\n";
             //世代交代コマンド
             mPrac->alternate();
         }
     } while (1);
 
-    mPrac->printResult();
+    mPrac->printResult(evaluation);
     delete mPrac;
 
     return 0;

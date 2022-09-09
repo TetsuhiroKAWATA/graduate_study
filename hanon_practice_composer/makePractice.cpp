@@ -108,10 +108,62 @@ void makePractice::sort(int lb, int ub) {
 }
 
 void makePractice::alternate() {
+	Individual* tmp;
+	int p1, p2;//両親
+	int pointSum = 0, Sum = 0;//点数の合計、合計を保存しておく場所
+
+	//点数を合計
+	for (int i = 0; i < MusicNum; i++)
+		Sum += Ind[i]->point;
+
 	//親個体を選択、交叉
-	
+	for (int i = 0; i < MusicNum; i++) {
+		pointSum = Sum;
+		//親1
+		p1 = select(pointSum, -1);
+
+		//親2
+		pointSum -= Ind[p1]->point;
+		p2 = select(pointSum, p1);
+		std::cout << i << "回目親" << p1 << ", " << p2 << '\n';
+
+		//交叉させる
+		newInd[i]->cross(Ind[p1], Ind[p2]);
+	}
+
+
+	//世代交代
+	for (int i = 0; i < MusicNum; i++) {
+		tmp = Ind[i];
+		Ind[i] = newInd[i];
+		newInd[i] = tmp;
+	}
+
+	//表示
+	for (int i = 0; i < MusicNum; i++) {
+		std::cout << i + 1 << "曲目\n";
+		Ind[i]->printChrom();
+	}
 }
 
-void makePractice::printResult() {
-	std::cout << "ぷりんとりざると\n";
+void makePractice::printResult(int Num) {
+	std::cout << "ぷりんとりざると:" << Num << "\n";
+}
+
+int makePractice::select(int pointSum, int p1Num) {
+	double prob, r;//prob:選ばれる確率が入る場所　r:0以上1以下の実数乱数を入れるやつ。
+	int res = 0;
+
+	r = ((double)rand() / RAND_MAX);
+
+	for (int j = 0; j < MusicNum; j++) {
+		prob = Ind[j]->point / (double)pointSum;
+		if (j != p1Num && r <= prob) {
+			res = j;
+			break;
+		}
+		r -= prob;
+	}
+
+	return res;
 }

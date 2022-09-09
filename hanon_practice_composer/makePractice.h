@@ -10,7 +10,7 @@ public:
 	//ŠÖ”Œn
 	makePractice(int selectNum);
 	~makePractice();
-	void printResult();
+	void printResult(int Num);
 	void dataPrepare();
 	void firstTake();
 	void sort(int lb, int ub);
@@ -20,4 +20,5 @@ private:
 	Individual* newInd[MusicNum];//Ÿ¢‘ã
 	char* toRead;
 	std::string makePass;
+	int select(int pointSum, int p1Num);
 };
