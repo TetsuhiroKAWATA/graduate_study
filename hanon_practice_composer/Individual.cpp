@@ -558,6 +558,10 @@ void Individual::sort(int lb, int ub) {
 	}
 }
 
+void Individual::printResult() {
+	//全体のデータ
+}
+
 void Individual::printChrom() {
 
 	for (int i = 0; i < 16; i++) {

@@ -148,6 +148,7 @@ void makePractice::alternate() {
 
 void makePractice::printResult(int Num) {
 	std::cout << "‚Õ‚è‚ñ‚Æ‚è‚´‚é‚Æ:" << Num << "\n";
+	Ind[Num - 1]->printResult();
 }
 
 int makePractice::select(int pointSum, int p1Num) {

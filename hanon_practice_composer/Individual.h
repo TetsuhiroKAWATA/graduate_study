@@ -21,6 +21,7 @@ public:
 	int decideNoteNum(int lower, int upper);//lowerˆÈãupperˆÈ‰º(ˆÈ‰ºI)‚Ì—”‚ğo‚·‚¾‚¯‚È‚Ì‚Åg‚¢‚Ü‚í‚µ‚Í‚«‚­‚©‚à
 	void cross(Individual* p1, Individual* p2);
 	void sort(int lb, int ub);
+	void printResult();
 
 	void printChrom();
 private:
