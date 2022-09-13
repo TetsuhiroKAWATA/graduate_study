@@ -145,6 +145,8 @@ int main()
             }
         } while (1);
         
+        //調作る
+        mPrac->Cont->makeScale();
     }
     else if (selectNum == 2) {
         //楽曲No.2->アルペジオ
@@ -170,6 +172,7 @@ int main()
             } while (1);
             //tmpの中身を選んだ調にする
             tmp = mPrac->Cont->key[chordNum][0];
+            mPrac->Cont->typeofChord == 0;
 
             std::cout << "主音:" << tmp << mPrac->Cont->key[chordNum][1] << ",種別:" << mPrac->Cont->typeofChord << "\n";
             std::cout << "以上の条件で作曲します。よろしいですか。y/n\n";
@@ -180,6 +183,8 @@ int main()
                 break;
             }
         } while (1);
+
+        mPrac->Cont->makeScale();
     }
     else {
         std::cout << "番号選択が間違っています。\n";
@@ -193,6 +198,11 @@ int main()
 
     //世代交代とかやる
     do {
+        //出力
+        for (int i = 0; i < MusicNum; i++) {
+            mPrac->printMusic(i);
+        }
+
         confirm = 'N';
         for (int i = 0; i < MusicNum; i++) {
             std::cout << i + 1 << ":music" << i+1 << "\n";

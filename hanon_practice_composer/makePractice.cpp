@@ -33,7 +33,7 @@ void makePractice::dataPrepare() {
 
 		//コード進行決める。
 		toRead = (char*)(Cont->chordProg);
-		Cont->readData("../data/fingertrain/chordProg.csv", toRead, 1, barNum);
+		Cont->readData("../data/fingertrain/chordProg.csv", toRead, 1, barNum*2);
 
 		//音数
 		Cont->noteNum[0] = 4;
@@ -47,6 +47,7 @@ void makePractice::dataPrepare() {
 		//左手の形
 		toRead = (char*)(Cont->accompany);
 		Cont->readData("../data/fingertrain/accompany.csv", toRead, chordKinds, 6);
+		Cont->accNoteNum = 4;
 
 		//ハノンの旋律読み込み
 		toRead = (char*)(Cont->hanon);
@@ -65,6 +66,7 @@ void makePractice::dataPrepare() {
 	case 3:
 		break;
 	case 4:
+		Cont->tempo /= 2;
 		break;
 	default:
 		std::cout << "入力された数字が間違っています。\n";
@@ -140,15 +142,19 @@ void makePractice::alternate() {
 	}
 
 	//表示
-	for (int i = 0; i < MusicNum; i++) {
+	/*for (int i = 0; i < MusicNum; i++) {
 		std::cout << i + 1 << "曲目\n";
 		Ind[i]->printChrom();
-	}
+	}*/
 }
 
 void makePractice::printResult(int Num) {
 	std::cout << "ぷりんとりざると:" << Num << "\n";
-	Ind[Num - 1]->printResult();
+	Ind[Num]->printResult();
+}
+
+void makePractice::printMusic(int Num) {
+	Ind[Num]->printMusic(Num);
 }
 
 int makePractice::select(int pointSum, int p1Num) {

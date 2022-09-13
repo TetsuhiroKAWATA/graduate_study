@@ -11,6 +11,7 @@ public:
 	makePractice(int selectNum);
 	~makePractice();
 	void printResult(int Num);
+	void printMusic(int Num);
 	void dataPrepare();
 	void firstTake();
 	void sort(int lb, int ub);

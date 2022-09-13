@@ -364,9 +364,9 @@ void Individual::firstTake(int selectNum) {
 					if (tmp == noteNum) {
 						tmp2 = decideNoteNum(0, 1);
 						if (tmp2 == 1)
-							chrom[i * 64 + 55 + j] = "C4";
+							chrom[i * 64 + 55 + j] = "c4";
 						else
-							chrom[i * 64 + 55 + j] = "C5";
+							chrom[i * 64 + 55 + j] = "c5";
 						tmp--;
 					}
 					else {
@@ -426,7 +426,7 @@ void Individual::firstTake(int selectNum) {
 			}
 		}
 
-		printChrom();
+		//printChrom();
 
 		break;
 	case 1:
@@ -458,19 +458,19 @@ int Individual::decideNoteNum(int lower, int upper) {
 int Individual::defNoteNum(std::string tmpS, int num) {
 	int tmp = 0;
 
-	if (tmpS == "C")
+	if (tmpS == "c")
 		tmp = 1;
-	else if (tmpS == "D")
+	else if (tmpS == "d")
 		tmp = 2;
-	else if (tmpS == "E")
+	else if (tmpS == "e")
 		tmp = 3;
-	else if (tmpS == "F")
+	else if (tmpS == "f")
 		tmp = 4;
-	else if (tmpS == "G")
+	else if (tmpS == "g")
 		tmp = 5;
-	else if (tmpS == "A")
+	else if (tmpS == "a")
 		tmp = 6;
-	else if (tmpS == "H")
+	else if (tmpS == "b")
 		tmp = 7;
 	else
 		std::cout << "要素が不正です。\n";
@@ -559,7 +559,310 @@ void Individual::sort(int lb, int ub) {
 }
 
 void Individual::printResult() {
+	std::string fileName = "../result/music";
+	fileName += ".mml";
+	print(fileName);
+}
+
+void Individual::printMusic(int Num){
+	std::string fileName = "../music/music";
+	fileName += std::to_string(Num + 1);
+	fileName += ".mml";
+	print(fileName);
+}
+
+void Individual::print(std::string fileName) {
+	std::ofstream fout;
+
+	printChrom();
+
+	fout.open(fileName, std::ios_base::trunc);
+	if (!fout) {
+		std::cout << "file open Error\n";
+	}
+
 	//全体のデータ
+	fout << "Include(stdmsg.h)\n";
+	fout << "System.MeasureShift(1)\n";
+	fout << "Copyright = { \"Tetsuhiro KAWATA\" }\n";
+	fout << "TrackName = { \"music\" }\n\n";
+
+	fout << "Time(0:1:0)\nResetXG();ResetGS();ResetGM();\n\n";
+
+	fout << "TimeSignature(" << data->beat << ",4)\n";
+	fout << "Tempo(" << data->tempo << ")\n";
+
+	//右手
+	fout << "Track(1)\n";
+	fout << "Channel(1)\n";
+	fout << "Time(1:1:0)\nVoice(1)\n\n";
+
+	fout << "l8o4v150\n";
+
+//	fout.close();
+
+	//本体
+	//右手
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 2; j++) {
+			//2小節ごとに出力(2小節ごとに改行しようとしてた時の名残)
+			printMelody(fileName, i, j,fout);
+		}
+	}
+
+	fout << "\no5v80\n";
+
+	//伴奏
+	for (int i = 0; i < 8; i++) {
+		printAccom(fileName, i, fout);
+		fout << '\n';
+	}
+
+	//左手
+	fout << "\nTrack(2)\n";
+	fout << "Channel(2)\n";
+	fout << "Time(1:1:0)\nVoice(1)\n\n";
+
+	fout << "l8o3v80\n";
+
+	//伴奏
+	for (int i = 0; i < 8; i++) {
+		//小節ごと
+		printAccom(fileName, i, fout);
+		fout << '\n';
+	}
+	fout << "\nv150\n";
+
+	//左手
+	for (int i = 4; i < 8; i++) {
+		for (int j = 0; j < 2; j++) {
+			printMelody(fileName, i, j,fout);
+		}
+	}
+
+	fout.close();
+}
+
+void Individual::printMelody(std::string fileName, int i, int j, std::ofstream& fout) {//&で参照、とやらをしているらしい。調べたい
+	int tmp2, tmp3, tmp4;
+	int nowChordinP;
+	std::string recentX[2];//直前のX
+	std::string tmp;
+	std::string recentC = "x";//直前の音
+	int recentCount = 0;//Xのどの要素を使っているか。
+
+	tmp2 = i * 2 + j;
+	nowChordinP = data->chordProg[tmp2] - '0';
+	nowChordinP--;
+
+	tmp2 = j * data->noteNum[1] + i * data->noteNum[1] * 2;//2小節の最初の要素の添え字
+
+	tmp4 = data->hanon[0][0] - '0';
+	tmp4 += nowChordinP;
+	recentX[0] = data->notes[tmp4 - 1];
+	tmp4 = data->hanon[0][1] - '0';
+	tmp4 += nowChordinP;
+	recentX[1] = data->notes[tmp4 - 1];
+
+	for (int k = 0; k < data->noteNum[1]; k++) {
+
+		//出力する要素の抽出
+		if (chrom[k + tmp2].substr(1, 1) == "#") {//シャープがついてる場合
+			tmp = chrom[k + tmp2].substr(0, 2);
+
+			if (chrom[k + tmp2].substr(2, 1) == "5") {
+				fout << ">";
+				fout << tmp;
+				fout << "<";
+				recentC = ">" + tmp + "<";
+			}
+			else {
+				fout << tmp;
+				recentC = tmp;
+			}
+		}
+		else if (chrom[k + tmp2].substr(0, 1) == "X") {//Xの場合
+			tmp = chrom[k + tmp2];
+			tmp3 = std::stoi(tmp.substr(1));//Xについてる番号(X1の1,X20の20)
+
+			if (data->selectedNum == 4) {
+				//半音階のXを出す処理を書く
+			}
+			else if (data->selectedNum == 0) {
+				//1~20の場合、使いまわし厳禁！
+				if (1 <= tmp3 && tmp3 <= 7) {
+					tmp4 = data->hanon[0][tmp3 - 1] - '0';//ハノンの何番目か求めて
+					tmp4 += nowChordinP;//コード分足して
+					tmp = data->notes[tmp4 - 1];
+
+					recentCount = 1;
+
+					if (tmp4 >= 8) {
+						fout << ">" << tmp << "<";
+						recentX[0] = ">" + tmp + "<";
+					}
+					else {
+						fout << tmp;
+						recentX[0] = tmp;
+					}
+
+					tmp4 = data->hanon[0][tmp3] - '0';
+					tmp4 += nowChordinP;
+					tmp = data->notes[tmp4 - 1];
+					if (tmp4 >= 8) {
+						recentX[1] = ">" + tmp + "<";
+					}
+					else
+						recentX[1] = tmp;
+				}
+				else if (8 <= tmp3 && tmp3 <= 13) {
+					tmp4 = data->hanon[0][tmp3 - 1 - 7] - '0';//ハノンの何番目か求めて
+					tmp4 += nowChordinP;//コード分足して
+					tmp = data->notes[tmp4 - 1];
+
+					recentCount = 0;
+
+					if (tmp4 >= 8) {
+						fout << ">" << tmp << "<";
+					}
+					else {
+						fout << tmp;
+					}
+
+					//Yの準備
+					tmp4 = data->hanon[0][tmp3 - 7] - '0';
+					tmp4 += nowChordinP;
+					tmp = data->notes[tmp4 - 1];
+					if (tmp4 >= 8) {
+						recentX[0] = ">" + tmp + "<";
+					}
+					else
+						recentX[0] = tmp;
+
+					tmp4 = data->hanon[0][tmp3 - 7 + 1] - '0';
+					tmp4 += nowChordinP;
+					tmp = data->notes[tmp4 - 1];
+					if (tmp4 >= 8) {
+						recentX[1] = ">" + tmp + "<";
+					}
+					else
+						recentX[1] = tmp;
+				}
+				else if (14 <= tmp3 && tmp3 <= 20) {
+					tmp4 = data->hanon[1][tmp3 - 1 - 13] - '0';//ハノンの何番目か求めて
+					tmp4 += nowChordinP;//コード分足して
+					tmp = data->notes[tmp4 - 1];
+
+					recentCount = 1;
+
+					if (tmp4 >= 8) {
+						fout << ">" << tmp << "<";
+						recentX[0] = ">" + tmp + "<";
+					}
+					else {
+						fout << tmp;
+						recentX[0] = tmp;
+					}
+
+					tmp4 = data->hanon[1][tmp3 - 13] - '0';
+					tmp4 += nowChordinP;
+					tmp = data->notes[tmp4 - 1];
+					if (tmp4 >= 8) {
+						recentX[1] = ">" + tmp + "<";
+					}
+					else
+						recentX[1] = tmp;
+				}
+				else if (21 <= tmp3 && tmp3 <= 26) {
+					tmp4 = data->hanon[1][tmp3 - 1 - 20] - '0';//ハノンの何番目か求めて
+					tmp4 += nowChordinP;//コード分足して
+					tmp = data->notes[tmp4 - 1];
+
+					recentCount = 0;
+
+					if (tmp4 >= 8) {
+						fout << ">" << tmp << "<";
+						recentX[0] = ">" + tmp + "<";
+					}
+					else {
+						fout << tmp;
+						recentX[0] = tmp;
+					}
+
+					tmp4 = data->hanon[1][tmp3 - 20] - '0';
+					tmp4 += nowChordinP;
+					tmp = data->notes[tmp4 - 1];
+					if (tmp4 >= 8) {
+						recentX[0] = ">" + tmp + "<";
+					}
+					else
+						recentX[0] = tmp;
+
+					tmp4 = data->hanon[1][tmp3 - 20 + 1] - '0';
+					tmp4 += nowChordinP;
+					tmp = data->notes[tmp4 - 1];
+					if (tmp4 >= 8) {
+						recentX[1] = ">" + tmp + "<";
+					}
+					else
+						recentX[1] = tmp;
+				}
+			}
+			else {
+				//スケール
+			}
+		}
+		else {//シャープがついてない場合、またはT,P,Yの場合
+			tmp = chrom[k + tmp2].substr(0, 1);
+
+			if (tmp == "T") {
+				if (chrom[k + tmp2 - 1] != "P")
+					fout << "^";
+				else
+					fout << recentC;
+			}
+			else if (tmp == "P") {
+				fout << "r";
+			}
+			else if (tmp == "Y") {
+				fout << recentX[recentCount];
+				recentCount = recentCount * (-1) + 1;
+			}
+			else {
+				if (chrom[k + tmp2].substr(1, 1) == "5") {
+					fout << ">";
+					fout << tmp;
+					fout << "<";
+					recentC = ">" + tmp + "<";
+				}
+				else {
+					fout << tmp;
+					recentC = tmp;
+				}
+			}
+		}
+
+	}
+	fout << "\n";
+}
+
+void Individual::printAccom(std::string fileName, int i, std::ofstream& fout) {
+	std::string tmp = "";
+	int nowChordinP;
+
+	nowChordinP = data->chordProg[i] - '0';
+	nowChordinP--;
+
+	//度数を番号に変換
+	if (nowChordinP == 3)
+		nowChordinP = 1;
+	else if (nowChordinP == 4)
+		nowChordinP = 2;
+
+	for (int i = 0; i < data->accNoteNum; i++) {
+		tmp = data->notes[data->accompany[nowChordinP][i] - '0' - 1];
+		fout << tmp << "^";
+	}
 }
 
 void Individual::printChrom() {

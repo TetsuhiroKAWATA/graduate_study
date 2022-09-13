@@ -5,6 +5,8 @@
 #include <cctype>
 #include <algorithm>
 
+//Individualのprint関数では結構定数を使っているのでメロディ作成数とか変えた時はそこらへんも変更が必要
+
 //定数(ポインタで示さなくても使えたほうが良いやつ)
 //※ここに変数は置かない。全部constをつけろ
 const int Lega = 3;//最長の長さ(八分音符基準)
@@ -34,9 +36,10 @@ public:
 	int selectedNum = -999;//どの種別(基礎、スケールetc.)の練習をするか。
 
 	char chord[4] = { '1','3','5', 0};
-	char notes[15] = { 'C', 'D', 'E', 'F', 'G', 'A', 'H', 'C', 'D', 'E', 'F', 'G', 'A', 'H', 0};
+	char notes[15] = { 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 0};
+	std::string convNotes[14];//調に変換したNoteを入れる
 	char scaleTKeynote[Sstuck][Sline];
-	char keynoteOrder[2][7] = { {'F', 'C', 'G', 'D', 'A', 'E', 'H'},{'H', 'E', 'A', 'D', 'G', 'C', 'F'} };
+	char keynoteOrder[2][7] = { {'f', 'c', 'g', 'd', 'a', 'e', 'b'},{'b', 'e', 'a', 'd', 'g', 'c', 'f'} };
 	char key[Kstuck][Kline];
 	//chord:和音の音の位置、度数表記, key;調の名前と調号の種類と数、外部から読むわ, keynoteOrder:調号のつき方, 
 	//notes:7音, scaleTKeynote:スケールの臨時記号の数と場所(度数表記)、外部から読む
@@ -46,21 +49,25 @@ public:
 	int typeofChord;//和声or旋律
 	int hanonNum;//1~20で使用する楽曲番号
 	int chordNum;//選択された調がkeyの何番目の要素であるか
-	char chordProg[barNum];//コード進行(14151451とか)
+	char chordProg[barNum*2];//コード進行(14151451とか)
 
-	int noteNum[2];//[0]が最小音数、[1]が最大音数
+	int noteNum[2];//[0]が最小音数、[1]が最大音数。noteNum[1]は必ずその小節に最小音節で最大まで音を入れた時の音数にしないといけない(4拍子なら8、3拍子なら6)
 	int noteNumEnd[2];
 	int beat;//拍子
 	char accompany[chordKinds][leftMax];//伴奏の度数
+	int accNoteNum;//伴奏の音数
 	char hanon[3][noteHNum];//ハノン元曲を入れる場所,hanon[2][0]が最低音の度数、hanon[2][1]が最高音の度数
 
 	int Xceil = -999;//Xの上限(1～20で26が現在の最高値)
+
+	int tempo = 150;
 
 	//関数
 	data_controller();
 	~data_controller();
 	bool checkInt(std::string input);
 	void readData(std::string fileName, char* databox, int chunkNum, int lineNum);//linenum:key[30][3]の3のほう
+	void makeScale();
 private:
 	//定数系
 
