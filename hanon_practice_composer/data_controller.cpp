@@ -52,7 +52,7 @@ void data_controller::makeScale() {
 	char tmpKey[2] = {'-999',0};
 	char tmpC[2] = { '-999',0 };
 
-	tmpKey[0] = key[chordNum][0];
+	tmpKey[0] = key[chordNum][0];//’²AchordNum‚©‚çæ‚Á‚Ä‚±‚ç‚ê‚é
 	//std::cout << "tmpKey = " << tmpKey << '\n';
 
 	if (strcmp(tmpKey, "C") == 0 || strcmp(tmpKey, "c") == 0)

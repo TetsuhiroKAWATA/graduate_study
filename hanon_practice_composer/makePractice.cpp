@@ -53,13 +53,38 @@ void makePractice::dataPrepare() {
 		toRead = (char*)(Cont->hanon);
 		makePass = "../data/fingertrain/practice_" + std::to_string(Cont->hanonNum);
 		makePass += ".csv";
-		Cont->readData(makePass, toRead, 3, noteHNum);//3:右手と左手、音域　12:音数自体は8だけど、領域の大きさを書かないといけないため、12
+		Cont->readData(makePass, toRead, 3, noteHNum);//3:上り、下り、音域　12:音数自体は8だけど、領域の大きさを書かないといけないため、12
 		
 		//Xの範囲指定
 		Cont->Xceil = 26;
 
 		break;
 	case 1:
+		Cont->chromLen = 128;
+
+		toRead = (char*)(Cont->chordProg);
+		Cont->readData("../data/scale/chordProg.csv", toRead, 1, barNum * 2);
+
+		//音数
+		Cont->noteNum[0] = 4;
+		Cont->noteNum[1] = 8;
+		Cont->noteNumEnd[0] = 2;
+		Cont->noteNumEnd[1] = 6;
+
+		//拍子
+		Cont->beat = 4;
+
+		//左手
+		toRead = (char*)(Cont->accompany);
+		Cont->readData("../data/scale/accompany.csv", toRead, chordKinds, 6);
+		Cont->accNoteNum = 4;
+
+		//ハノン読み込み(スケールだけど)
+		toRead = (char*)(Cont->hanon);
+		Cont->readData("../data/scale/hanon.csv", toRead, 3, noteHNum);
+
+		Cont->Xceil = 2;
+
 		break;
 	case 2:
 		break;
@@ -67,6 +92,7 @@ void makePractice::dataPrepare() {
 		break;
 	case 4:
 		Cont->tempo /= 2;
+		Cont->Xceil = 2;
 		break;
 	default:
 		std::cout << "入力された数字が間違っています。\n";

@@ -77,8 +77,11 @@ int main()
     if (selectNum == 0 || selectNum == 3 || selectNum == 4) {
         //基礎とオクターブと半音階
         mPrac->Cont->chordNum = 0;
+        mPrac->Cont->typeofChord = 2;
         //Cdurにならないとおかしいのでそうならない場合は考慮してないです
         std::cout << "楽曲の調は、" << mPrac->Cont->key[mPrac->Cont->chordNum][0] << "dur です。\n";
+        mPrac->Cont->makeScale();
+
         if (selectNum == 0) {
             //楽曲ナンバー決める。(1～20)
             do {
@@ -134,6 +137,9 @@ int main()
                     }
                 } while (1);
             }
+            else {
+                mPrac->Cont->typeofChord = 2;
+            }
 
             std::cout << "主音:" << tmp << mPrac->Cont->key[chordNum][1] << ",種別:" << mPrac->Cont->typeofChord << "\n";
             std::cout << "以上の条件で作曲します。よろしいですか。y/n\n";
@@ -172,7 +178,10 @@ int main()
             } while (1);
             //tmpの中身を選んだ調にする
             tmp = mPrac->Cont->key[chordNum][0];
-            mPrac->Cont->typeofChord == 0;
+            if ('a' <= tmp && tmp <= 'z')
+                mPrac->Cont->typeofChord = 0;
+            else
+                mPrac->Cont->typeofChord = 2;
 
             std::cout << "主音:" << tmp << mPrac->Cont->key[chordNum][1] << ",種別:" << mPrac->Cont->typeofChord << "\n";
             std::cout << "以上の条件で作曲します。よろしいですか。y/n\n";
@@ -243,7 +252,7 @@ int main()
         }
     } while (1);
 
-    mPrac->printResult(evaluation);
+    mPrac->printResult(evaluation - 1);
     delete mPrac;
 
     return 0;
