@@ -56,24 +56,24 @@ void data_controller::makeScale() {
 	//std::cout << "tmpKey = " << tmpKey << '\n';
 
 	if (strcmp(tmpKey, "C") == 0 || strcmp(tmpKey, "c") == 0)
-		tmp = 0;
+		heiDiff = 0;
 	else if (strcmp(tmpKey, "D") == 0 || strcmp(tmpKey, "d") == 0)
-		tmp = 1;
+		heiDiff = 1;
 	else if (strcmp(tmpKey, "E") == 0 || strcmp(tmpKey, "e") == 0)
-		tmp = 2;
+		heiDiff = 2;
 	else if (strcmp(tmpKey, "F") == 0 || strcmp(tmpKey, "f") == 0)
-		tmp = 3;
+		heiDiff = 3;
 	else if (strcmp(tmpKey, "G") == 0 || strcmp(tmpKey, "g") == 0)
-		tmp = 4;
+		heiDiff = 4;
 	else if (strcmp(tmpKey, "A") == 0 || strcmp(tmpKey, "a") == 0)
-		tmp = 5;
+		heiDiff = 5;
 	else if (strcmp(tmpKey, "H") == 0 || strcmp(tmpKey, "h") == 0)
-		tmp = 6;
+		heiDiff = 6;
 	else
 		std::cout << "‰½‚©‚ªˆá‚¢‚Ü‚·\n";
 	
 	for (int i = 0; i < 7; i++) {
-		convNotes[i] = notes[i + tmp];
+		convNotes[i] = notes[i + heiDiff];
 	}
 
 	tmpC[0] = scaleTKeynote[typeofChord][0];

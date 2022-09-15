@@ -8,30 +8,32 @@ ResetXG();ResetGS();ResetGM();
 
 TimeSignature(4,4)
 Tempo(150)
+’²()
+
 Track(1)
 Channel(1)
 Time(1:1:0)
 Voice(1)
 
 l8o4v150
-ceagdede
->c<^abafgf
-eeceaged
-g^bgar>c<b
-edefaeed
-a^bar>c<a^
-g^b>e<>d<b>e<>d<
-ded^edc^
+>a<>g#-<>f#-<>e<>d<>c<ba
+>d<>f#<>a<^>f#<>d<>a<^
+ab>c<>d<>e<>f#<>g#<>a<
+>e<>b<^^r>b<>a<>b<
+>a<>g#-<>f#-<>e<>d<>c<ba
+>d<>a<>d<>f#<^>g#<>f#<>e<
+>e<>g#<>a<>b<>a<>b<>a<>g#<
+>g#<>f#<>e<ba^ra
 
 o5v80
-c^g^e^g^
-c^a^f^a^
-c^g^e^g^
-d^g^f^g^
-c^g^e^g^
-c^a^f^a^
-d^g^f^g^
-c^g^e^g^
+a^>e^<>c^<>e^<
+a^>f#^<>d^<>f#^<
+a^>e^<>c^<>e^<
+b^>e^<>d^<>e^<
+a^>e^<>c^<>e^<
+a^>f#^<>d^<>f#^<
+b^>e^<>d^<>e^<
+a^>e^<>c^<>e^<
 
 Track(2)
 Channel(2)
@@ -39,21 +41,21 @@ Time(1:1:0)
 Voice(1)
 
 l8o3v80
-c^g^e^g^
-c^a^f^a^
-c^g^e^g^
-d^g^f^g^
-c^g^e^g^
-c^a^f^a^
-d^g^f^g^
-c^g^e^g^
+a^>e^<>c^<>e^<
+a^>f#^<>d^<>f#^<
+a^>e^<>c^<>e^<
+b^>e^<>d^<>e^<
+a^>e^<>c^<>e^<
+a^>f#^<>d^<>f#^<
+b^>e^<>d^<>e^<
+a^>e^<>c^<>e^<
 
 v150
-cee^cf^r
->c<^arf^gg
-cedcdega
-g^g^rb>e<b
-gfe^dedg
-aa>d<>c<arf^
-b>d<r>c<^bb>e<
-b^rb^^>c<r
+>a<>g#-<>f#-<>e<>d<>c<ba
+>d<^>f#<^>g#<>a<>f#<r
+>a<>g#-<>f#-<>e<>d<>c<ba
+>e<>g#<r>a<r>a<>b<>a<
+ab>c<>d<>e<>f#<>g#<>a<
+>f#<>d<>c<>d<>a<>b<^>a<
+>e<>g#<>b<>e<^>b<>>c<<>b<
+>b<>a<>g#<^>a<r>a<r

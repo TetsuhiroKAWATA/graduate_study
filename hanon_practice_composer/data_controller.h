@@ -28,7 +28,7 @@ const static int noteHNum = 12;//ハノンの元曲において、1小節に含まれる最大の音数
 
 const static double mutateProb = 0.01;//突然変異確率
 const static int crossNum = 10;//crossNum点交叉
-const static int restProb = 4;//restProb分の1でPが選ばれる(individual.cppのTP埋めの作業の時使われる)
+const static int restProb = 3;//restProb分の1でPが選ばれる(individual.cppのTP埋めの作業の時使われる)
 
 class data_controller {
 public:
@@ -61,6 +61,8 @@ public:
 	int Xceil = -999;//Xの上限(1～20で26が現在の最高値)
 
 	int tempo = 150;
+
+	int heiDiff = -999;//C durを基準として調の主音が何音上にあるかを格納すr
 
 	//関数
 	data_controller();
