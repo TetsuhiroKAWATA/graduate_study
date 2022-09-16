@@ -46,7 +46,7 @@ void makePractice::dataPrepare() {
 
 		//左手の形
 		toRead = (char*)(Cont->accompany);
-		Cont->readData("../data/fingertrain/accompany.csv", toRead, chordKinds, 6);
+		Cont->readData("../data/fingertrain/accompany.csv", toRead, chordKinds, leftMax);
 		Cont->accNoteNum = 4;
 
 		//ハノンの旋律読み込み
@@ -76,7 +76,7 @@ void makePractice::dataPrepare() {
 
 		//左手
 		toRead = (char*)(Cont->accompany);
-		Cont->readData("../data/scale/accompany.csv", toRead, chordKinds, 6);
+		Cont->readData("../data/scale/accompany.csv", toRead, chordKinds, leftMax);
 		Cont->accNoteNum = 4;
 
 		//ハノン読み込み(スケールだけど)
@@ -87,10 +87,77 @@ void makePractice::dataPrepare() {
 
 		break;
 	case 2:
+		//アルペジオ
+		Cont->chromLen = 96;
+
+		toRead = (char*)(Cont->chordProg);
+		Cont->readData("../data/arpeggio/chordProg.csv", toRead, 1, barNum * 2);
+
+		//音数
+		Cont->noteNum[0] = 3;
+		Cont->noteNum[1] = 6;
+		Cont->noteNumEnd[0] = 2;
+		Cont->noteNumEnd[1] = 6;
+
+		Cont->beat = 3;
+
+		//左手(アルペジオ)
+		toRead = (char*)(Cont->accompany);
+		Cont->readData("../data/arpeggio/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->accNoteNum = 6;
+
+		Cont->Xceil = 0;
+		Cont->tempo = 120;
+
 		break;
 	case 3:
+		//オクターブ
+		Cont->chromLen = 128;
+
+		toRead = (char*)(Cont->chordProg);
+		Cont->readData("../data/octave/chordProg.csv", toRead, 1, barNum * 2);
+
+		//音数
+		Cont->noteNum[0] = 4;
+		Cont->noteNum[1] = 8;
+		Cont->noteNumEnd[0] = 2;
+		Cont->noteNumEnd[1] = 6;
+
+		//拍子
+		Cont->beat = 4;
+
+		//左手
+		toRead = (char*)(Cont->accompany);
+		Cont->readData("../data/octave/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->accNoteNum = 4;
+
+		Cont->Xceil = 0;
+		Cont->tempo = 120;
+
 		break;
 	case 4:
+		Cont->chromLen = 96;
+
+		toRead = (char*)(Cont->chordProg);
+		Cont->readData("../data/chromaticscale/chordProg.csv", toRead, 1, barNum * 2);
+
+		//音数
+		Cont->noteNum[0] = 3;
+		Cont->noteNum[1] = 6;
+		Cont->noteNumEnd[0] = 2;
+		Cont->noteNumEnd[1] = 6;
+
+		//拍子
+		Cont->beat = 3;
+
+		//左手
+		toRead = (char*)(Cont->accompany);
+		Cont->readData("../data/chromaticscale/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->accNoteNum = 3;
+
+		toRead = (char*)(Cont->hanon);
+		Cont->readData("../data/chromaticscale/hanon.csv", toRead, 3, noteHNum);
+
 		Cont->tempo /= 2;
 		Cont->Xceil = 2;
 		break;

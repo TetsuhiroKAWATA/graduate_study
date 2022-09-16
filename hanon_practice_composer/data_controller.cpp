@@ -92,8 +92,11 @@ void data_controller::makeScale() {
 		convNotes[i + 7] = convNotes[i];
 	}
 
+	//’Ç‰Á•ª
+	convNotes[14] = convNotes[0];
+
 	std::cout << "res:";
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < 15; i++) {
 		std::cout << convNotes[i] << ", ";
 	}
 	std::cout << '\n';

@@ -511,26 +511,314 @@ void Individual::firstTake(int selectNum) {
 
 		break;
 	case 2:
-		//std::cout << "アルペジオの初期集団作成\n";
+		//std::cout << "アルペジオの初期集団作成\n";//std::cout << "オクターブの初期集団作成\n";
+		//pt初期化
+		for (int k = 0; k < 7; k++) {
+			PT[k] = -999;
+		}
+
+		for (int i = 0; i < meloMakeRep; i++) {
+			//音域
+			noteRange[0] = 1;
+			noteRange[1] = 10;
+			for (int j = 0; j < meloMakeNum; j++) {
+
+				//std::cout << "nowChordNum = ";
+				//コード設定、度数表記(0からではない)
+				for (int k = 0; k < 3; k++) {
+					tmp = (data->chord[k] - '0') + (data->chordProg[j] - '0') - 2;
+					nowChord[k] = data->notes[tmp];
+					nowChordNum[k] = tmp + 1;
+					//std::cout << nowChordNum[k] << ' ';
+				}
+				//std::cout << '\n';
+				// 
+				//音数、リズム
+				noteNum = decideNoteNum(data->noteNum[0], data->noteNum[1]);
+				tmp = data->noteNum[1] - noteNum;
+				decidePT(tmp, j * data->noteNum[1] + (i * 48) + 1, j * data->noteNum[1] + (i * 48) + 5);
+
+				//始めの音を決める
+				do {
+					tmp = decideNoteNum(0, 2);
+					if (noteRange[0] <= nowChordNum[tmp] && nowChordNum[tmp] <= noteRange[1])
+						break;
+				} while (1);
+				chrom[j * data->noteNum[1] + (i * 48)] = data->convNotes[nowChordNum[tmp] - 1];
+				if (nowChordNum[tmp] + data->heiDiff > 7)
+					chrom[j * data->noteNum[1] + (i * 48)] += "5";
+				else
+					chrom[j * data->noteNum[1] + (i * 48)] += "4";
+				tmpS = chrom[j * data->noteNum[1] + (i * 48)];
+
+				//音を繋げる
+				for (int k = 1; k < 6; k++) {
+					if (chrom[j * data->noteNum[1] + (i * 48) + k] == "-999") {
+						noteHei = std::stoi(tmpS.substr(tmpS.length() - 1));
+						counter = seekNote(randomTable, tmpS, nowChordNum, noteRange, noteHei);
+						tmp = decideNoteNum(0, counter - 1);
+						chrom[j * data->noteNum[1] + (i * 48) + k] = randomTable[tmp];
+						tmpS = chrom[j * data->noteNum[1] + (i * 48) + k];
+					}
+				}
+			}
+			//8小節目
+			//リズム
+			noteNum = decideNoteNum(data->noteNumEnd[0], data->noteNumEnd[1]);
+			tmp = decideNoteNum(0, 1);
+			if (tmp == 0)
+				chrom[i * 48 + 47] = "T";
+			else if (tmp == 1)
+				chrom[i * 48 + 47] = "P";
+
+			tmp = data->beat * 2 - noteNum - 1;
+			decidePT(tmp, i * 48 + 43, i * 48 + 46);
+
+			//音決め
+			tmp = noteNum;
+			for (int j = 5; j > 0; j--) {
+				counter = 0;
+				if (chrom[i * 48 + 41 + j] == "-999") {
+					if (tmp == noteNum) {
+						tmp2 = decideNoteNum(0, 1);
+						if (tmp2 == 1) {
+							chrom[i * 48 + 41 + j] = data->convNotes[0];
+							chrom[i * 48 + 41 + j] += "4";
+						}
+						else {
+							chrom[i * 48 + 41 + j] = data->convNotes[7];
+							chrom[i * 48 + 41 + j] += "5";
+						}
+						tmpS = chrom[i * 48 + 41 + j];
+						tmp--;
+					}
+					else {
+						noteHei = std::stoi(tmpS.substr(tmpS.length() - 1));
+						counter = seekNote(randomTableEnd, tmpS, nowChordNum, noteRange, noteHei);
+
+						//選ぶ
+						tmp2 = decideNoteNum(0, counter - 1);
+						chrom[i * 48 + 41 + j] = randomTableEnd[tmp2];
+						tmpS = chrom[i * 48 + 41 + j];
+					}
+				}
+			}
+		}
 		break;
 	case 3:
 		//std::cout << "オクターブの初期集団作成\n";
+		//pt初期化
+		for (int k = 0; k < 7; k++) {
+			PT[k] = -999;
+		}
 
+		for (int i = 0; i < meloMakeRep; i++) {
+			//音域
+			noteRange[0] = 1;
+			noteRange[1] = 8;
+			for (int j = 0; j < meloMakeNum; j++) {
+
+				//std::cout << "nowChordNum = ";
+				//コード設定、度数表記(0からではない)
+				for (int k = 0; k < 3; k++) {
+					tmp = (data->chord[k] - '0') + (data->chordProg[j] - '0') - 2;
+					nowChord[k] = data->notes[tmp];
+					nowChordNum[k] = tmp + 1;
+					//std::cout << nowChordNum[k] << ' ';
+				}
+				//std::cout << '\n';
+				// 
+				//音数、リズム
+				noteNum = decideNoteNum(data->noteNum[0], data->noteNum[1]);
+				tmp = data->noteNum[1] - noteNum;
+				decidePT(tmp, j * data->noteNum[1] + (i * 64) + 1, j * data->noteNum[1] + (i * 64) + 7);
+
+				//始めの音を決める
+				do {
+					tmp = decideNoteNum(0, 2);
+					if (noteRange[0] <= nowChordNum[tmp] && nowChordNum[tmp] <= noteRange[1])
+						break;
+				} while (1);
+				chrom[j * data->noteNum[1] + (i * 64)] = data->convNotes[nowChordNum[tmp] - 1];
+				if (nowChordNum[tmp] + data->heiDiff > 7)
+					chrom[j * data->noteNum[1] + (i * 64)] += "5";
+				else
+						chrom[j * data->noteNum[1] + (i * 64)] += "4";
+				tmpS = chrom[j * data->noteNum[1] + (i * 64)];
+
+				//音を繋げる
+				for (int k = 1; k < 8; k++) {
+					if (chrom[j * data->noteNum[1] + (i * 64) + k] == "-999") {
+						noteHei = std::stoi(tmpS.substr(tmpS.length() - 1));
+						counter = seekNote(randomTable, tmpS, nowChordNum, noteRange, noteHei);
+						tmp = decideNoteNum(0, counter - 1);
+						chrom[j * data->noteNum[1] + (i * 64) + k] = randomTable[tmp];
+						tmpS = chrom[j * data->noteNum[1] + (i * 64) + k];
+					}
+				}
+			}
+			//8小節目
+			//リズム
+			noteNum = decideNoteNum(data->noteNumEnd[0], data->noteNumEnd[1]);
+			tmp = decideNoteNum(0, 1);
+			if (tmp == 0)
+				chrom[i * 64 + 63] = "T";
+			else if (tmp == 1)
+				chrom[i * 64 + 63] = "P";
+
+			tmp = data->beat * 2 - noteNum - 1;
+			decidePT(tmp, i * 64 + 57, i * 64 + 62);
+
+			//音決め
+			tmp = noteNum;
+			for (int j = 7; j > 0; j--) {
+				counter = 0;
+				if (chrom[i * 64 + 55 + j] == "-999") {
+					if (tmp == noteNum) {
+						tmp2 = decideNoteNum(0, 1);
+						if (tmp2 == 1) {
+							chrom[i * 64 + 55 + j] = data->convNotes[0];
+							chrom[i * 64 + 55 + j] += "4";
+						}
+						else {
+							chrom[i * 64 + 55 + j] = data->convNotes[7];
+							chrom[i * 64 + 55 + j] += "5";
+						}
+						tmpS = chrom[i * 64 + 55 + j];
+						tmp--;
+					}
+					else {
+						noteHei = std::stoi(tmpS.substr(tmpS.length() - 1));
+						counter = seekNote(randomTableEnd, tmpS, nowChordNum, noteRange, noteHei);
+
+						//選ぶ
+						tmp2 = decideNoteNum(0, counter - 1);
+						chrom[i * 64 + 55 + j] = randomTableEnd[tmp2];
+						tmpS = chrom[i * 64 + 55 + j];
+					}
+				}
+			}
+		}
 		break;
 	case 4:
 		//std::cout << "半音階の初期集団作成\n";
-		tmpS = "c";
-		nowChordNum[0] = 4;
-		nowChordNum[1] = 6;
-		nowChordNum[2] = 8;
-		noteRange[0] = 1;
-		noteRange[1] = 10;
-		noteHei = 4;
-		counter = seekNote(randomTable,tmpS, nowChordNum, noteRange, noteHei);
-		for (int i = 0; i < counter; i++) {
-			std::cout << randomTable[i];
+		for (int k = 0; k < 7; k++) {
+			PT[k] = -999;
 		}
-		std::cout << '\n';
+
+		for (int i = 0; i < meloMakeRep; i++) {
+			//音域
+			noteRange[0] = 1;
+			noteRange[1] = 10;
+			for (int j = 0; j < meloMakeNum; j++) {
+
+				//std::cout << "nowChordNum = ";
+				//コード設定、度数表記(0からではない)
+				for (int k = 0; k < 3; k++) {
+					tmp = (data->chord[k] - '0') + (data->chordProg[j] - '0') - 2;
+					nowChord[k] = data->notes[tmp];
+					nowChordNum[k] = tmp + 1;
+					//std::cout << nowChordNum[k] << ' ';
+				}
+				//std::cout << '\n';
+
+				//コードが1ならXになる
+				if (nowChordNum[0] == 1) {
+					chrom[j * data->noteNum[1] + (i * 48)] = "X";
+					tmp2 = decideNoteNum(1, 2);
+					chrom[j * data->noteNum[1] + (i * 48)] += std::to_string(tmp2);
+
+					//y追加
+					for (int k = 1; k < data->noteNum[1]; k++)
+						chrom[j * data->noteNum[1] + (i * 48) + k] = "Y";
+					continue;
+				}
+				else {//コードが1でないときの分岐
+					//音数、リズム
+					noteNum = decideNoteNum(data->noteNum[0], data->noteNum[1]);
+					tmp = data->noteNum[1] - noteNum;
+					decidePT(tmp, j * data->noteNum[1] + (i * 48) + 1, j * data->noteNum[1] + (i * 48) + 5);
+
+					//始めの音を決める
+					std::cout << chrom[j * data->noteNum[1] + (i * 48) - 1];
+					if (chrom[j * data->noteNum[1] + (i * 48) - 1] == "Y") {
+						chrom[j * data->noteNum[1] + (i * 48)] = data->convNotes[-1 + (data->hanon[0][0] - '0')];
+						if (chrom[j * data->noteNum[1] + (i * 48) - 6] == "X1") {
+							chrom[j * data->noteNum[1] + (i * 48)] += "5";
+						}
+						else {
+							chrom[j * data->noteNum[1] + (i * 48)] += "4";
+						}
+					}
+					else {
+						do {
+							tmp = decideNoteNum(0, 2);
+							if (noteRange[0] <= nowChordNum[tmp] && nowChordNum[tmp] <= noteRange[1])
+								break;
+						} while (1);
+						chrom[j * data->noteNum[1] + (i * 48)] = data->convNotes[nowChordNum[tmp] - 1];
+						if (nowChordNum[tmp] + data->heiDiff > 7)
+							chrom[j * data->noteNum[1] + (i * 48)] += "5";
+						else
+							chrom[j * data->noteNum[1] + (i * 48)] += "4";
+					}
+					tmpS = chrom[j * data->noteNum[1] + (i * 48)];
+
+					//音を繋げる
+					for (int k = 1; k < 6; k++) {
+						if (chrom[j * data->noteNum[1] + (i * 48) + k] == "-999") {
+							noteHei = std::stoi(tmpS.substr(tmpS.length() - 1));
+							counter = seekNote(randomTable, tmpS, nowChordNum, noteRange, noteHei);
+							tmp = decideNoteNum(0, counter - 1);
+							chrom[j * data->noteNum[1] + (i * 48) + k] = randomTable[tmp];
+							tmpS = chrom[j * data->noteNum[1] + (i * 48) + k];
+						}
+					}
+				}
+			}
+			//8小節目
+			//リズム
+			noteNum = decideNoteNum(data->noteNumEnd[0], data->noteNumEnd[1]);
+			tmp = decideNoteNum(0, 1);
+			if (tmp == 0)
+				chrom[i * 48 + 47] = "T";
+			else if (tmp == 1)
+				chrom[i * 48 + 47] = "P";
+
+			tmp = data->beat * 2 - noteNum - 1;
+			decidePT(tmp, i * 48 + 43, i * 48 + 46);
+
+			//音決め
+			tmp = noteNum;
+			for (int j = 5; j > 0; j--) {
+				counter = 0;
+				if (chrom[i * 48 + 41 + j] == "-999") {
+					if (tmp == noteNum) {
+						tmp2 = decideNoteNum(0, 1);
+						if (tmp2 == 1) {
+							chrom[i * 48 + 41 + j] = data->convNotes[0];
+							chrom[i * 48 + 41 + j] += "4";
+						}
+						else {
+							chrom[i * 48 + 41 + j] = data->convNotes[7];
+							chrom[i * 48 + 41 + j] += "5";
+						}
+						tmpS = chrom[i * 48 + 41 + j];
+						tmp--;
+					}
+					else {
+						noteHei = std::stoi(tmpS.substr(tmpS.length() - 1));
+						counter = seekNote(randomTableEnd, tmpS, nowChordNum, noteRange, noteHei);
+
+						//選ぶ
+						tmp2 = decideNoteNum(0, counter - 1);
+						chrom[i * 48 + 41 + j] = randomTableEnd[tmp2];
+						tmpS = chrom[i * 48 + 41 + j];
+					}
+				}
+			}
+		}
+
 		break;
 	default:
 		std::cout << "正しくない値\n";
@@ -839,7 +1127,10 @@ void Individual::print(std::string fileName) {
 	fout << "Channel(1)\n";
 	fout << "Time(1:1:0)\nVoice(1)\n\n";
 
-	fout << "l8o4v150\n";
+	octave = "o4";
+	if (data->selectedNum == 2)
+		octave = "o5";
+	fout << "l8"<< octave << "v150\n";
 
 //	fout.close();
 
@@ -852,13 +1143,22 @@ void Individual::print(std::string fileName) {
 		}
 	}
 
-	fout << "\no5v80\n";
+	if (data->selectedNum == 2)
+		fout << "r^^^^^\n";
+
+	octave = "o5";
+	if (data->selectedNum == 2)
+		octave = "o4";
+	fout << "\n" << octave << "v80\n";
 
 	//伴奏
 	for (int i = 0; i < 8; i++) {
 		printAccom(fileName, i, fout);
 		fout << '\n';
 	}
+
+	if (data->selectedNum == 2)
+		fout << data->convNotes[0] << "^^^^r\n";
 
 	//左手
 	fout << "\nTrack(2)\n";
@@ -878,6 +1178,9 @@ void Individual::print(std::string fileName) {
 		fout << '\n';
 	}
 	fout << "\nv150\n";
+
+	if (data->selectedNum == 2)
+		fout << "r^^^^^\n";
 
 	//左手
 	for (int i = 4; i < 8; i++) {
@@ -919,18 +1222,30 @@ void Individual::printMelody(std::string fileName, int i, int j, std::ofstream& 
 
 			if (chrom[k + tmp2].substr(2, 1) == "5") {
 				fout << ">";
+				if (data->selectedNum == 3)
+					fout << "'";
 				fout << tmp;
+				if (data->selectedNum == 3)
+					fout << ">" << tmp << "'<";
 				fout << "<";
 				recentC = ">" + tmp + "<";
 			}
 			else if (chrom[k + tmp2].substr(2, 1) == "6") {
 				fout << ">>";
+				if (data->selectedNum == 3)
+					fout << "'";
 				fout << tmp;
+				if (data->selectedNum == 3)
+					fout << ">" << tmp << "'<";
 				fout << "<<";
 				recentC = ">>" + tmp + "<<";
 			}
 			else {
+				if (data->selectedNum == 3)
+					fout << "'";
 				fout << tmp;
+				if (data->selectedNum == 3)
+					fout << ">" << tmp << "'<";
 				recentC = tmp;
 			}
 		}
@@ -939,7 +1254,24 @@ void Individual::printMelody(std::string fileName, int i, int j, std::ofstream& 
 			tmp3 = std::stoi(tmp.substr(1));//Xについてる番号(X1の1,X20の20)
 
 			if (data->selectedNum == 4) {
-				//半音階のXを出す処理を書く
+				//半音階のXを出す処理を書く、最小単位8分音符の時以外は想定していない
+				fout << "l16\n";
+				for (int i = 0; i < 12; i++) {
+					if (tmp3 == 1) {
+						if (i + (data->hanon[0][0] - '0') >= 13)
+							fout << ">" << data->chrNotes[tmp3 - 1][i + (data->hanon[0][0] - '0') - 1] << "<";
+						else
+							fout << data->chrNotes[tmp3 - 1][i + (data->hanon[0][0] - '0') - 1];
+					}
+					else {
+						if (12 - i + (data->hanon[0][0] - '0') >= 13)
+							fout << ">" << data->chrNotes[tmp3 - 1][i - (data->hanon[0][0] - '0') + 13] << "<";
+						else
+							fout << data->chrNotes[tmp3 - 1][i + (data->hanon[0][0] - '0') - 1];
+					}
+				}
+				fout << "l8\n";
+
 			}
 			else if (data->selectedNum == 0) {
 				//1~20の場合、使いまわし厳禁！
@@ -1085,8 +1417,13 @@ void Individual::printMelody(std::string fileName, int i, int j, std::ofstream& 
 			if (tmp == "T") {
 				if (chrom[k + tmp2 - 1] != "P")
 					fout << "^";
-				else
+				else {
+					if (data->selectedNum == 3)
+						fout << "'";
 					fout << recentC;
+					if (data->selectedNum == 3)
+						fout << ">" << recentC << "'<";
+				}
 			}
 			else if (tmp == "P") {
 				fout << "r";
@@ -1100,18 +1437,30 @@ void Individual::printMelody(std::string fileName, int i, int j, std::ofstream& 
 			else {
 				if (chrom[k + tmp2].substr(1, 1) == "5") {
 					fout << ">";
+					if (data->selectedNum == 3)
+						fout << "'";
 					fout << tmp;
+					if (data->selectedNum == 3)
+						fout << ">" << tmp << "'<";
 					fout << "<";
 					recentC = ">" + tmp + "<";
 				}
 				else if (chrom[k + tmp2].substr(1, 1) == "6") {
 					fout << ">>";
+					if (data->selectedNum == 3)
+						fout << "'";
 					fout << tmp;
+					if (data->selectedNum == 3)
+						fout << ">" << tmp << "'<";
 					fout << "<<";
 					recentC = ">>" + tmp + "<<";
 				}
 				else {
+					if (data->selectedNum == 3)
+						fout << "'";
 					fout << tmp;
+					if (data->selectedNum == 3)
+						fout << ">" << tmp << "'<";
 					recentC = tmp;
 				}
 			}
@@ -1121,11 +1470,11 @@ void Individual::printMelody(std::string fileName, int i, int j, std::ofstream& 
 	fout << "\n";
 }
 
-void Individual::printAccom(std::string fileName, int i, std::ofstream& fout) {
+void Individual::printAccom(std::string fileName, int I, std::ofstream& fout) {
 	std::string tmp = "";
-	int nowChordinP;
+	int nowChordinP, tmp2;
 
-	nowChordinP = data->chordProg[i] - '0';
+	nowChordinP = data->chordProg[I] - '0';
 	nowChordinP--;
 
 	//度数を番号に変換
@@ -1134,14 +1483,38 @@ void Individual::printAccom(std::string fileName, int i, std::ofstream& fout) {
 	else if (nowChordinP == 4)
 		nowChordinP = 2;
 
-	//この状態だと、8分音符で構成された伴奏というのが想定されていない
-	for (int i = 0; i < data->accNoteNum; i++) {
-		tmp = data->convNotes[data->accompany[nowChordinP][i] - '0' - 1];
-		if (data->accompany[nowChordinP][i] - '0' + data->heiDiff >= 8) {
-			fout << ">" << tmp << "^" << "<";
+	if (data->selectedNum == 2) {
+		//I依存なので繰り返しとか色々変えるとここも変わっちゃうかも
+		nowChordinP = I % 2;
+
+		for (int i = 0; i < data->accNoteNum; i++) {
+			tmp2 = data->accompany[nowChordinP][i] - '0';
+			//色々終わっている処理をしているので変えられるなら変えたほうが良いかも
+			if (tmp2 == 0 || tmp2 == 2 || tmp2 == 6)
+				tmp2 += 10;
+			if (tmp2 == 16)
+				tmp2--;
+			//終わっている処理ここまで
+
+			tmp = data->convNotes[tmp2 - 1];
+			if (tmp2 + data->heiDiff >= 15)
+				fout << ">>" << tmp << "<<";
+			else if (tmp2 + data->heiDiff >= 8)
+				fout << ">" << tmp << "<";
+			else
+				fout << tmp;
 		}
-		else
-			fout << tmp << "^";
+	}
+	else {
+		//この状態だと、8分音符で構成された伴奏というのが想定されていない
+		for (int i = 0; i < data->accNoteNum; i++) {
+			tmp = data->convNotes[data->accompany[nowChordinP][i] - '0' - 1];
+			if (data->accompany[nowChordinP][i] - '0' + data->heiDiff >= 8) {
+				fout << ">" << tmp << "^" << "<";
+			}
+			else
+				fout << tmp << "^";
+		}
 	}
 }
 

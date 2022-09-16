@@ -37,7 +37,10 @@ public:
 
 	char chord[4] = { '1','3','5', 0};
 	char notes[15] = { 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'a', 'b', 0};
-	std::string convNotes[14];//’²‚É•ÏŠ·‚µ‚½Note‚ğ“ü‚ê‚é
+	//”¼‰¹ŠKê—p‚Ì“zB‚±‚ê‚Í•Ï‚í‚ç‚È‚¢(13-X)
+	std::string chrNotes[2][24] = { {"c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b", "c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b" },
+									{"c", "b", "b-", "a", "a-", "g", "g-", "f", "e", "e-", "d", "d-", "c", "b", "b-", "a", "a-", "g", "g-", "f", "e", "e-", "d", "d-"} };
+	std::string convNotes[15];//’²‚É•ÏŠ·‚µ‚½Note‚ğ“ü‚ê‚é
 	char scaleTKeynote[Sstuck][Sline];
 	char keynoteOrder[2][7] = { {'f', 'c', 'g', 'd', 'a', 'e', 'b'},{'b', 'e', 'a', 'd', 'g', 'c', 'f'} };
 	char key[Kstuck][Kline];

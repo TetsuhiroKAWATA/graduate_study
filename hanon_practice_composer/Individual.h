@@ -31,7 +31,7 @@ private:
 	int defNoteNum(std::string tmpS, int num);//対象のC4等の要素を数値に変換する 引数：変換したい文字、その文字の添え字(chrom上)
 
 	void printMelody(std::string fileName, int i, int j, std::ofstream& fout);
-	void printAccom(std::string fileName, int i, std::ofstream& fout);
+	void printAccom(std::string fileName, int I, std::ofstream& fout);
 	int seekNote(std::string* randomTable, std::string tmpS, int* nowChordNum, int* noteRange, int noteHei);//隣接音を選択する関数、1~20には多分使えない
 	void decidePT(int PTnum, int range1, int range2);//リズムを決める関数(引数:PTの数、対象のchromの範囲)
 };
