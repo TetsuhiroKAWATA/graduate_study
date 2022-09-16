@@ -12,6 +12,8 @@ public:
 	std::string chrom[128];
 	int point;//•]‰¿“_
 	int points[crossNum];//Œğ·“_‚ğ•Û‘¶‚·‚éêŠ
+	const static int mkNum = 300;
+	char mkPath[mkNum];
 
 
 	//ŠÖ”

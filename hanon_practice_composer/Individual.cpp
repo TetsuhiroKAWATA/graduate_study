@@ -3,12 +3,7 @@
 Individual::Individual(data_controller* d) {
 	//std::cout << "個体作った\n";
 	data = d;
-	//char doNotUse = d->key[0][0];
-	//std::cout << "Eが出たら正解:" << data->notes[2] << "\n";
-	
-	//個体ナンバー管理(Ind[i]のiでやったほうが早そうだけどなんか別のこと考えてたんだよねたぶん・・・)
-	//data->GproductSum+=0.5;
-	//productNum = (int)data->GproductSum;
+
 	point = -1;
 	//初期化
 	for (int i = 0; i < 128; i++) {
@@ -1069,15 +1064,17 @@ void Individual::decidePT(int PTnum, int range1, int range2) {
 }
 
 void Individual::printResult() {
-	std::string fileName = "../result/music";
+	std::string fileName = "../mml/result/music";
 	fileName += ".mml";
+	sprintf_s(mkPath, "%s ..\\mml\\result\\music.mml ..\\result\\music.mid",resultMid);
 	print(fileName);
 }
 
 void Individual::printMusic(int Num){
-	std::string fileName = "../music/music";
+	std::string fileName = "../mml/music/music";
 	fileName += std::to_string(Num + 1);
 	fileName += ".mml";
+	sprintf_s(mkPath, "%s ..\\mml\\music\\music%d.mml ..\\music\\music%d.mid", resultMid, Num + 1, Num + 1);
 	print(fileName);
 }
 
@@ -1190,6 +1187,10 @@ void Individual::print(std::string fileName) {
 	}
 
 	fout.close();
+
+	//systemでmidに変換
+	//std::cout << mkPath << '\n';
+	system(mkPath);
 }
 
 void Individual::printMelody(std::string fileName, int i, int j, std::ofstream& fout) {//&で参照、とやらをしているらしい。調べたい
