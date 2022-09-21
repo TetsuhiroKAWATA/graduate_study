@@ -49,8 +49,8 @@ bool data_controller::checkInt(std::string input) {
 void data_controller::makeScale() {
 	//ˆá‚¤•û–@‚ ‚è‚»‚¤‚¾‚¯‚Ç‚¿‚å‚Á‚Æ–³—
 	int tmp = 0, tmp2 = 0, counter = 0;
-	char tmpKey[2] = {'-999',0};
-	char tmpC[2] = { '-999',0 };
+	char tmpKey[2] = {'X',0};
+	char tmpC[2] = {'X',0 };
 
 	tmpKey[0] = key[chordNum][0];//’²AchordNum‚©‚çæ‚Á‚Ä‚±‚ç‚ê‚é
 	//std::cout << "tmpKey = " << tmpKey << '\n';

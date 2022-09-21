@@ -234,6 +234,9 @@ void makePractice::alternate() {
 		newInd[i] = tmp;
 	}
 
+	//“Ë‘R•ÏˆÙ
+
+
 	//•\Ž¦
 	/*for (int i = 0; i < MusicNum; i++) {
 		std::cout << i + 1 << "‹È–Ú\n";

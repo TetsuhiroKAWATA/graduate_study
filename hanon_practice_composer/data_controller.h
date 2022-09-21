@@ -9,6 +9,9 @@
 
 //’è”(ƒ|ƒCƒ“ƒ^‚Å¦‚³‚È‚­‚Ä‚àg‚¦‚½‚Ù‚¤‚ª—Ç‚¢‚â‚Â)
 //¦‚±‚±‚É•Ï”‚Í’u‚©‚È‚¢B‘S•”const‚ğ‚Â‚¯‚ë
+const static int MusicNum = 5;//ì¬‚·‚é—ûK‹È‚Ì”B“–‘RÅ¬’l‚Í2
+
+
 const int Lega = 3;//Å’·‚Ì’·‚³(”ª•ª‰¹•„Šî€)
 const int Stac = 1;//Å’Z‚Ì’PˆÊ(”ª•ª‰¹•„Šî€)
 const int meloMakeNum = 7;//ƒƒƒfƒBì¬”‡Œv
@@ -20,7 +23,6 @@ const static int Kstuck = 24;//key.csv“Ç‚İ‚İ—p‚Ì2ŸŒ³”z—ñ‚Ì—v‘f”‚»‚Ì1,Å‘å’l‚
 const static int Kline = 4;//ã‚É“¯‚¶‚»‚Ì2
 const static int Sstuck = 3;//scale_tmp_keynote.csv“Ç‚İ‚İ—p‚Ì2ŸŒ³”z—ñ‚Ì—v‘f”‚»‚Ì1
 const static int Sline = 18;//ã‚É“¯‚¶‚»‚Ì2
-const static int MusicNum = 2;//ì¬‚·‚é—ûK‹È‚Ì”B“–‘RÅ¬’l‚Í2
 const static int leftMax = 6;//¶è‚Ì1¬ß‰¹”Å‘å
 const static int chordKinds = 3;//Šy‹È“à‚Åg—p‚³‚ê‚éƒR[ƒh‚Ìí—Ş”
 const static int noteHNum = 12;//ƒnƒmƒ“‚ÌŒ³‹È‚É‚¨‚¢‚ÄA1¬ß‚ÉŠÜ‚Ü‚ê‚éÅ‘å‚Ì‰¹”
