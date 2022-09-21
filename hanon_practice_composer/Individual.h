@@ -26,6 +26,7 @@ public:
 	void printResult();
 	void printMusic(int Num);
 	void print(std::string fileName);
+	void mutate();
 
 	void printChrom();
 private:

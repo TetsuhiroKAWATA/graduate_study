@@ -235,7 +235,9 @@ void makePractice::alternate() {
 	}
 
 	//“Ë‘R•ÏˆÙ
-
+	for (int i = 0; i < MusicNum; i++) {
+		Ind[i]->mutate();
+	}
 
 	//•\Ž¦
 	/*for (int i = 0; i < MusicNum; i++) {

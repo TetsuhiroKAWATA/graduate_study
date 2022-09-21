@@ -1519,6 +1519,31 @@ void Individual::printAccom(std::string fileName, int I, std::ofstream& fout) {
 	}
 }
 
+void Individual::mutate() {
+	double r;//—”“ü‚ê‚é‚â‚Â(“Ë‘R•ÏˆÙ—p)
+	std::string tmp;
+	int counter;
+	std::string table[40];
+
+	std::cout << "mutate!\n";
+
+	for (int i = 0; i < data->chromLen; i++) {
+		r = (double)rand() / RAND_MAX;
+		if (r <= mutateProb) {
+			//ˆ—
+			tmp = chrom[i].substr(0, chrom[i].length() - 1);
+			for (counter = 0; counter < 7; counter++) {
+				if (tmp == data->convNotes[counter])
+					break;
+			}
+
+			if (chrom[i].substr(chrom[i].length() - 1) == "5") {
+				counter += 7;
+			}
+		}
+	}
+}
+
 void Individual::printChrom() {
 
 	for (int i = 0; i < 16; i++) {
