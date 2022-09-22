@@ -27,8 +27,14 @@ const static int leftMax = 6;//左手の1小節音数最大
 const static int chordKinds = 3;//楽曲内で使用されるコードの種類数
 const static int noteHNum = 12;//ハノンの元曲において、1小節に含まれる最大の音数
 
+//音域(上)
+const static int scaleRange = 10;
+const static int arpeRange = 10;
+const static int octRange = 8;
+const static int chroRange = 10;
 
-const static double mutateProb = 0.01;//突然変異確率
+
+const static double mutateProb = 0.005;//突然変異確率
 const static int crossNum = 10;//crossNum点交叉
 const static int restProb = 3;//restProb分の1でPが選ばれる(individual.cppのTP埋めの作業の時使われる)
 

@@ -397,7 +397,7 @@ void Individual::firstTake(int selectNum) {
 		for (int i = 0; i < meloMakeRep; i++) {
 			//音域
 			noteRange[0] = 1;
-			noteRange[1] = 10;
+			noteRange[1] = scaleRange;
 			for (int j = 0; j < meloMakeNum; j++) {
 
 				//std::cout << "nowChordNum = ";
@@ -445,7 +445,7 @@ void Individual::firstTake(int selectNum) {
 					tmpS = chrom[j * data->noteNum[1] + (i * 64)];
 
 					noteRange[0] = 1;
-					noteRange[1] = 10;
+					noteRange[1] = scaleRange;
 
 					//音を繋げる
 					for (int k = 1; k < 8; k++) {
@@ -506,7 +506,7 @@ void Individual::firstTake(int selectNum) {
 
 		break;
 	case 2:
-		//std::cout << "アルペジオの初期集団作成\n";//std::cout << "オクターブの初期集団作成\n";
+		//std::cout << "アルペジオの初期集団作成\n";
 		//pt初期化
 		for (int k = 0; k < 7; k++) {
 			PT[k] = -999;
@@ -515,7 +515,7 @@ void Individual::firstTake(int selectNum) {
 		for (int i = 0; i < meloMakeRep; i++) {
 			//音域
 			noteRange[0] = 1;
-			noteRange[1] = 10;
+			noteRange[1] = arpeRange;
 			for (int j = 0; j < meloMakeNum; j++) {
 
 				//std::cout << "nowChordNum = ";
@@ -610,7 +610,7 @@ void Individual::firstTake(int selectNum) {
 		for (int i = 0; i < meloMakeRep; i++) {
 			//音域
 			noteRange[0] = 1;
-			noteRange[1] = 8;
+			noteRange[1] = octRange;
 			for (int j = 0; j < meloMakeNum; j++) {
 
 				//std::cout << "nowChordNum = ";
@@ -704,7 +704,7 @@ void Individual::firstTake(int selectNum) {
 		for (int i = 0; i < meloMakeRep; i++) {
 			//音域
 			noteRange[0] = 1;
-			noteRange[1] = 10;
+			noteRange[1] = chroRange;
 			for (int j = 0; j < meloMakeNum; j++) {
 
 				//std::cout << "nowChordNum = ";
@@ -735,7 +735,7 @@ void Individual::firstTake(int selectNum) {
 					decidePT(tmp, j * data->noteNum[1] + (i * 48) + 1, j * data->noteNum[1] + (i * 48) + 5);
 
 					//始めの音を決める
-					std::cout << chrom[j * data->noteNum[1] + (i * 48) - 1];
+					//std::cout << chrom[j * data->noteNum[1] + (i * 48) - 1];
 					if (chrom[j * data->noteNum[1] + (i * 48) - 1] == "Y") {
 						chrom[j * data->noteNum[1] + (i * 48)] = data->convNotes[-1 + (data->hanon[0][0] - '0')];
 						if (chrom[j * data->noteNum[1] + (i * 48) - 6] == "X1") {
@@ -1521,26 +1521,110 @@ void Individual::printAccom(std::string fileName, int I, std::ofstream& fout) {
 
 void Individual::mutate() {
 	double r;//乱数入れるやつ(突然変異用)
-	std::string tmp;
-	int counter;
+	std::string tmp2 = "c4";
+	std::string recent;
+	int counter = 0;
 	std::string table[40];
+	int nowChordNum[3] = { -999,-999,-999 };//突然変異は隣接音にのみ移れるものとする、のでナウコードは例外値
+	int noteRange[3];
+	int noteHei;
+	int tmp;
 
 	std::cout << "mutate!\n";
 
+	//データ整備
+	r = (double)rand() / RAND_MAX;
 	for (int i = 0; i < data->chromLen; i++) {
-		r = (double)rand() / RAND_MAX;
+		if (tmp2 != "Y" && tmp2 != "P" && tmp2 != "T" && tmp2.substr(0, 1) != "X")
+			recent = tmp2;
+		tmp2 = chrom[i];
+		
 		if (r <= mutateProb) {
-			//処理
-			tmp = chrom[i].substr(0, chrom[i].length() - 1);
-			for (counter = 0; counter < 7; counter++) {
-				if (tmp == data->convNotes[counter])
-					break;
-			}
+			std::cout << "do\n";
+			counter = 0;
 
-			if (chrom[i].substr(chrom[i].length() - 1) == "5") {
-				counter += 7;
+			if (tmp2 == "Y" || tmp2.substr(0, 1) == "X") {//yxの処理
+				std::cout << "XY\n";
+				switch (data->selectedNum) {
+				case 0://1~20
+					if (tmp2 == "Y") {
+						r = 0;
+						continue;
+					}
+					else {
+						for (counter = 0; counter < data->Xceil; counter++) {
+							table[counter] = "X";
+							table[counter] += std::to_string(counter + 1);
+						}
+						tmp = decideNoteNum(0, counter - 1);
+						chrom[i] = table[tmp];
+					}
+					break;
+				case 1://スケール
+					r = 0;
+					continue;
+				case 4://arpeggio
+					r = 0;
+					continue;
+				}
+			}
+			else{//PT,通常
+				std::cout << "else\n";
+				if (tmp2 == "P" || tmp2 == "T")
+					tmp2 = recent;
+
+				if (data->selectedNum == 4 && chrom[i - 1] == "Y") {
+					r = 0;
+					continue;
+				}
+
+				noteHei = stoi(tmp2.substr(tmp2.length() - 1));
+				//処理
+				switch (data->selectedNum) {
+				case 0:
+					if (i == 0)
+						noteRange[0] = (data->chordProg[0] - '0');
+					else
+						noteRange[0] = (data->chordProg[(i / data->noteNum[1])] - '0');
+
+					noteRange[1] = noteRange[0] + (data->hanon[2][1] - '0') - 1;
+					break;
+				case 1:
+					noteRange[0] = 1;
+					noteRange[1] = scaleRange;
+					break;
+				case 2:
+					noteRange[0] = 1;
+					noteRange[1] = arpeRange;
+					break;
+				case 3:
+					noteRange[0] = 1;
+					noteRange[1] = octRange;
+					break;
+				case 4:
+					noteRange[0] = 1;
+					noteRange[1] = chroRange;
+					break;
+				}
+
+				counter = seekNote(table, tmp2, nowChordNum, noteRange, noteHei);
+
+				if (data->selectedNum == 0) {
+					for (i = 0; i < data->Xceil; i++) {
+						table[counter] = "X";
+						table[counter] += std::to_string(i + 1);
+						counter++;
+					}
+					table[counter] = "Y";
+					counter++;
+				}
+
+				tmp = decideNoteNum(0, counter - 1);
+				chrom[i] = table[tmp];
 			}
 		}
+
+		r = (double)rand() / RAND_MAX;
 	}
 }
 

@@ -240,10 +240,10 @@ void makePractice::alternate() {
 	}
 
 	//•\Ž¦
-	/*for (int i = 0; i < MusicNum; i++) {
+	for (int i = 0; i < MusicNum; i++) {
 		std::cout << i + 1 << "‹È–Ú\n";
 		Ind[i]->printChrom();
-	}*/
+	}
 }
 
 void makePractice::printResult(int Num) {
