@@ -217,7 +217,7 @@ int main()
             std::cout << i + 1 << ":music" << i+1 << "\n";
             //std::cout << "Debug::zantei\n";
         }
-        std::cout << "最終結果としたい楽曲はありましたか？ y/n\n";
+        std::cout << "最終結果としたい楽曲はありましたか？ y/n\n再コンパイル/c\n";
         std::cin >> confirm;
         if (confirm == "Y" || confirm == "y") {
             do {
@@ -234,6 +234,9 @@ int main()
 
             } while (1);
             break;
+        }
+        else if (confirm == "C" || confirm == "c") {
+            continue;
         }
         else {
             std::cout << "それぞれの楽曲に点数をつけてください。\n";
@@ -252,7 +255,15 @@ int main()
         }
     } while (1);
 
-    mPrac->printResult(evaluation - 1);
+    do {
+        confirm = "N";
+        mPrac->printResult(evaluation - 1);
+        std::cout << "正しく出力されましたか？y/n\n";
+        std::cin >> confirm;
+        if (confirm == "Y" || confirm == "y")
+            break;
+    } while (1);
+
     delete mPrac;
 
     return 0;

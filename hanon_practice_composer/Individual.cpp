@@ -1573,7 +1573,9 @@ void Individual::mutate() {
 				if (tmp2 == "P" || tmp2 == "T")
 					tmp2 = recent;
 
-				if (data->selectedNum == 4 && chrom[i - 1] == "Y") {
+				if (data->noteNum[1]*7 <=i && i <=data->noteNum[1]*7+data->noteNum[1]-1 && tmp2.substr(0, 1) == data->convNotes[0]//ÅŒã‚Ì¬ß‚É‚ ‚éŽå‰¹‚¾‚Á‚½‚ç(‘O”¼)
+					||data->noteNum[1]*15 <= i && i <=data->noteNum[1]*15+data->noteNum[1]-1 && tmp2.substr(0,1) == data->convNotes[0]//ÅŒã‚Ì¬ß‚É‚ ‚éŽå‰¹‚¾‚Á‚½‚ç(Œã”¼)
+					|| data->selectedNum == 4 && chrom[i - 1] == "Y") {//”¼‰¹ŠK‚ÅˆêŒÂ‘O‚Ì’l‚ªY‚¾‚Á‚½‚ç
 					r = 0;
 					continue;
 				}
