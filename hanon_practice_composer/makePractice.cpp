@@ -220,7 +220,7 @@ void makePractice::alternate() {
 		//親2
 		pointSum -= Ind[p1]->point;
 		p2 = select(pointSum, p1);
-		std::cout << i << "回目親" << p1 << ", " << p2 << '\n';
+		//std::cout << i << "回目親" << p1 << ", " << p2 << '\n';
 
 		//交叉させる
 		newInd[i]->cross(Ind[p1], Ind[p2]);
@@ -240,10 +240,10 @@ void makePractice::alternate() {
 	}
 
 	//表示
-	for (int i = 0; i < MusicNum; i++) {
+	/*for (int i = 0; i < MusicNum; i++) {
 		std::cout << i + 1 << "曲目\n";
 		Ind[i]->printChrom();
-	}
+	}*/
 }
 
 void makePractice::printResult(int Num) {

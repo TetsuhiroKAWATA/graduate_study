@@ -1530,7 +1530,7 @@ void Individual::mutate() {
 	int noteHei;
 	int tmp;
 
-	std::cout << "mutate!\n";
+	//std::cout << "mutate!\n";
 
 	//ÉfÅ[É^êÆîı
 	r = (double)rand() / RAND_MAX;
@@ -1540,11 +1540,11 @@ void Individual::mutate() {
 		tmp2 = chrom[i];
 		
 		if (r <= mutateProb) {
-			std::cout << "do\n";
+			//std::cout << "do\n";
 			counter = 0;
 
 			if (tmp2 == "Y" || tmp2.substr(0, 1) == "X") {//yxÇÃèàóù
-				std::cout << "XY\n";
+				//std::cout << "XY\n";
 				switch (data->selectedNum) {
 				case 0://1~20
 					if (tmp2 == "Y") {
@@ -1569,7 +1569,7 @@ void Individual::mutate() {
 				}
 			}
 			else{//PT,í èÌ
-				std::cout << "else\n";
+				//std::cout << "else\n";
 				if (tmp2 == "P" || tmp2 == "T")
 					tmp2 = recent;
 
