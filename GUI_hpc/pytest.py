@@ -1,23 +1,52 @@
 import PySimpleGUI as sg
+import subprocess
+from subprocess import PIPE
 
-sg.theme('Dark Blue 3')  # please make your windows colorful
+#inpline = ["0", "y", "10", "y", "n", "1", "2", "3", "4", "5", "y", "4", "y"]
+inpline : str = "0 y 10 y n 1 2 3 4 5 y 4 y"
 
-layout = [[sg.Text('Your typed chars appear here:'), sg.Text(size=(12,1), key='-OUTPUT-')],
-          [sg.Input(key='-IN-')],
-          [sg.Button('Show'), sg.Button('Exit')]]
+page = [ [sg.Text('hanon practice composer Test')],
+       [sg.Button('start'), sg.Button('quit')] ]
 
-window = sg.Window('Window Title', layout)
+window = sg.Window('hanon_practice_composer', page)
 
-while True:  # Event Loop
-    event, values = window.read()
-    print(event, values)
-    if event == sg.WIN_CLOSED or event == 'Exit':
+while True:
+    event,values = window.read()
+    if(event == sg.WIN_CLOSED or event == 'quit'):
         break
-    if event == 'Show':
-        # change the "output" element to be the value of "input" element
-        window['-OUTPUT-'].update(values['-IN-'])
+    elif event == 'start':
+        with subprocess.Popen("..\\hpc\\hanon_practice_composer.exe", shell=True, stdin=PIPE, stdout=PIPE,stderr=PIPE,universal_newlines=True)as pipe:
+            out,err = pipe.communicate(inpline)
+            for line in out.splitlines():
+                print(line)
+
+        break
+        #stdout = subprocess.PIPE, 
+        #Pro = subprocess.Popen(["..\\hpc\\hanon_practice_composer.exe"], encoding = 'utf8', universal_newlines = True)までなら動く
+#        Pro = subprocess.Popen(["..\\hpc\\hanon_practice_composer.exe"], stdin = subprocess.PIPE, universal_newlines = True, encoding = 'utf8')
+ #       res = Pro.communicate(inpline.encode())[0].decode()
+  #      print(res)
 
 window.close()
+
+#sg.theme('Dark Blue 3')  # please make your windows colorful
+
+#layout = [[sg.Text('Your typed chars appear here:'), sg.Text(size=(12,1), key='-OUTPUT-')],
+#          [sg.Input(key='-IN-')],
+#          [sg.Button('Show'), sg.Button('Exit')]]
+
+#window = sg.Window('Window Title', layout)
+
+#while True:  # Event Loop
+#    event, values = window.read()
+#    print(event, values)
+#    if event == sg.WIN_CLOSED or event == 'Exit':
+#        break
+#    if event == 'Show':
+        # change the "output" element to be the value of "input" element
+#        window['-OUTPUT-'].update(values['-IN-'])
+
+#window.close()
 
 
 #case2
