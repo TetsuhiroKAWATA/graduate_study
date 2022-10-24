@@ -39,7 +39,7 @@ const static int crossNum = 10;//crossNum“_Œğ³
 const static int restProb = 3;//restProb•ª‚Ì1‚ÅP‚ª‘I‚Î‚ê‚é(individual.cpp‚ÌTP–„‚ß‚Ìì‹Æ‚Ìg‚í‚ê‚é)
 
 //csakura‚ÌêŠ
-const static char resultMid[300] = "..\\sakura\\cSakura.exe";
+const static char resultMid[300] = "hpc\\sakura\\cSakura.exe";
 
 class data_controller {
 public:

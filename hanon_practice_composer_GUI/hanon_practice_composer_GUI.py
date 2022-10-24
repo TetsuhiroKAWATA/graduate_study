@@ -1,9 +1,12 @@
 import PySimpleGUI as sg
+import subprocess
+from subprocess import PIPE
 #memo:入力、出力は一回しか呼び出せない。出力を二回呼び出すとかはできないし、入力の時にしか出力を呼び出せない
 
 #変数
 ans = ''#ユーザの答えを入れるやつ
-line = ''#標準入力に送り付ける文字列
+dire = ''#標準入力に送り付ける文字列
+decide = -1
 scaleknd = ['和声', '旋律', '自然']
 OptIN = ''#セレクト用
 Opt = ['基礎練習(1~20)', 'スケール(39)', 'アルペジオ(41~43)', 'オクターブ(51,53,57)', '半音階(40)']
@@ -71,13 +74,34 @@ octa1 = [[]]
 #半音階
 chro1 = [[]]
 
+#再生、採点、決定
+frame_layout1 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S1', default_value = 3, size = (20,15), orientation = 'horizontal')],
+                 [sg.Button('再生', key = 'play1'), sg.Button('この曲が良い！', key = 'dec1')]]
+
+frame_layout2 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S2', default_value = 3, size = (20,15), orientation = 'horizontal')],
+                 [sg.Button('再生', key = 'play2'), sg.Button('この曲が良い！', key = 'dec2')]]
+
+frame_layout3 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S3', default_value = 3, size = (20,15), orientation = 'horizontal')],
+                 [sg.Button('再生', key = 'play3'), sg.Button('この曲が良い！', key = 'dec3')]]
+
+frame_layout4 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S4', default_value = 3, size = (20,15), orientation = 'horizontal')],
+                 [sg.Button('再生', key = 'play4'), sg.Button('この曲が良い！', key = 'dec4')]]
+
+frame_layout5 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S5', default_value = 3, size = (20,15), orientation = 'horizontal')],
+                 [sg.Button('再生', key = 'play5'), sg.Button('この曲が良い！', key = 'dec5')]]
+
 
 #可否選択、採点画面
-selection = [ [sg.InputText('' , key = '-OUTPUT-'), sg.Button('表示')],
-              [sg.Button('新規楽曲生成'), sg.Button('やめる')]]
+selection = [ [sg.Text('評価画面')],
+              [sg.Text('楽曲に点数をつけ、画面下部の『次の候補を作る』ボタンを押すか、')],
+              [sg.Text('それぞれの楽曲下部の、『この曲が良い！』ボタンを押して結果を出力してください')],
+              [sg.Frame('楽曲1', frame_layout1, title_color = 'black'), sg.Frame('楽曲2', frame_layout2, title_color = 'black'), sg.Frame('楽曲3', frame_layout3, title_color = 'black'), sg.Frame('楽曲4', frame_layout4, title_color = 'black'), sg.Frame('楽曲5', frame_layout5, title_color = 'black')],
+              #[sg.InputText('' , key = '-OUTPUT-'), sg.Button('表示')],
+              #[sg.Button('楽曲を作り直す')],
+              [sg.Button('次の候補を作る'), sg.Button('やめる')]]
 
 #楽譜出力画面
-
+result_layout = [ [sg.Text('結果')]]
 
 #処理
 window = sg.Window('Hanon Practice Composer',top, resizable = True)
@@ -103,8 +127,8 @@ while True:
     elif event == '決定':#次のページへ
         if ans == 0 or ans == 1 or ans == 2 or ans == 3 or ans == 4:
             window.close()
-            line += str(ans) + ' y '
-            #print(line + 'fin')
+            dire += str(ans) + ' y '
+            #print(dire + 'fin')
             if ans == 0:
                 #曲番号選択
                 window = sg.Window('Hanon Practice Composer', found1, resizable = True)
@@ -119,9 +143,10 @@ while True:
                             sg.popup('曲番号を選択してください')
                         else:
                             window.close()
-                            line += str(ans) + ' y '
-                            #print(line + 'fin')
+                            dire += str(ans) + ' y '
+                            #print(dire + 'fin')
                             window = sg.Window('Hanon Practice Composer', selection, resizable = True)
+                            decide = 1
                             break
                     else:#選択処理
                         ans = event
@@ -142,11 +167,12 @@ while True:
                         else:
                             window.close()
                             if OptIN == 2:
-                                line += str(ans) + ' y '
+                                dire += str(ans) + ' y '
                             else:
-                                line += str(ans) + ' ' + str(OptIN) + ' y '
-                            #print(line + 'fin')
+                                dire += str(ans) + ' ' + str(OptIN) + ' y '
+                            #print(dire + 'fin')
                             window = sg.Window('Hanon Practice Composer', selection, resizable = True)
+                            decide = 1
                             break
                     else:#選択処理
                         ans = event
@@ -177,18 +203,23 @@ while True:
                             sg.popup('調を選択してください')
                         else:
                             window.close()
-                            line += str(ans) + ' y '
-                            #print(line + 'fin')
+                            dire += str(ans) + ' y '
+                            #print(dire + 'fin')
                             window = sg.Window('Hanon Practice Composer', selection, resizable = True)
+                            decide = 1
                             break
                     else:#選択処理
                         ans = event
                         ans = int(ans)
                         window['-OUTPUT-'].update(chord[ans])
             elif ans == 3:
-                pass
+                window = sg.Window('Hanon Practice Composer', selection, resizable = True)
+                decide = 1
+                break
             elif ans == 4:
-                pass
+                window = sg.Window('Hanon Practice Composer', selection, resizable = True)
+                decide = 1
+                break
             break
         else:
             sg.popup('練習項目を選択してください')
@@ -198,15 +229,24 @@ while True:
         #print(type(ans))#型確認
         window['-OUTPUT-'].update(Opt[ans])
 
+#初期集団作成！
+if decide == 1:
+    with subprocess.Popen("hpc\\hpc\\hanon_practice_composer_generate.exe", shell=True, stdin=PIPE, stdout=PIPE,stderr=PIPE,universal_newlines=True)as pipe:
+        out,err = pipe.communicate(dire)
+        #for line in out.splitlines():
+        #    print(line)
+
+
 #可否選択、採点画面
 while True:
     event,values = window.read()
     if event == '表示':
-        window['-OUTPUT-'].update(line)
+        window['-OUTPUT-'].update(dire)
     if event == sg.WIN_CLOSED or event == 'やめる':
         window.close()
         break
     else:
+        #subprocess.run("C:\\Program Files (x86)\\" ,"hpc\\music\\music1.mid")
         pass
 
 

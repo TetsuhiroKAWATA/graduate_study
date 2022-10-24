@@ -4,9 +4,9 @@ data_controller::data_controller() {
 	//std::cout << "データを読み込んだ\n";
 	//基礎データ読む
 	tmpp = (char*)key;
-	readData("../data/foundation/key.csv", tmpp, Kstuck, Kline);
+	readData("hpc/data/foundation/key.csv", tmpp, Kstuck, Kline);
 	tmpp = (char*)scaleTKeynote;
-	readData("../data/foundation/scale_tmp_keynote.csv", tmpp, Sstuck, Sline);
+	readData("hpc/data/foundation/scale_tmp_keynote.csv", tmpp, Sstuck, Sline);
 }
 
 data_controller::~data_controller() {
@@ -104,7 +104,7 @@ void data_controller::makeScale() {
 
 void data_controller::saveSNum() {
 	std::ofstream fout;
-	std::string path = "../data/selectedNum/selectedNum.csv";
+	std::string path = "hpc/data/selectedNum/selectedNum.csv";
 
 	fout.open(path);
 	if (!fout)
@@ -115,7 +115,7 @@ void data_controller::saveSNum() {
 
 void data_controller::saveChordNum() {
 	std::ofstream fout;
-	std::string path = "../data/chordNum/chordNum.csv";
+	std::string path = "hpc/data/chordNum/chordNum.csv";
 
 	fout.open(path);
 	if (!fout)
@@ -126,7 +126,7 @@ void data_controller::saveChordNum() {
 
 void data_controller::saveMusicNum() {
 	std::ofstream fout;
-	std::string path = "../data/musicNum/musicNum.csv";
+	std::string path = "hpc/data/musicNum/musicNum.csv";
 
 	fout.open(path);
 	if (!fout)

@@ -1064,14 +1064,14 @@ void Individual::decidePT(int PTnum, int range1, int range2) {
 }
 
 void Individual::printResult() {
-	std::string fileName = "../mml/result/music";
+	std::string fileName = "hpc/mml/result/music";
 	fileName += ".mml";
-	sprintf_s(mkPath, "%s ..\\mml\\result\\music.mml ..\\result\\music.mid",resultMid);
+	sprintf_s(mkPath, "%s hpc\\mml\\result\\music.mml hpc\\result\\music.mid",resultMid);
 	print(fileName);
 }
 
 void Individual::printMusic(int Num){
-	std::string path = "../chrom/chrom";
+	std::string path = "hpc/chrom/chrom";
 	std::ofstream fout;
 	path += std::to_string(Num);
 	path += ".csv";
@@ -1086,10 +1086,10 @@ void Individual::printMusic(int Num){
 	fout << '\n';
 	fout.close();
 
-	std::string fileName = "../mml/music/music";
+	std::string fileName = "hpc/mml/music/music";
 	fileName += std::to_string(Num + 1);
 	fileName += ".mml";
-	sprintf_s(mkPath, "%s ..\\mml\\music\\music%d.mml ..\\music\\music%d.mid", resultMid, Num + 1, Num + 1);
+	sprintf_s(mkPath, "%s hpc\\mml\\music\\music%d.mml hpc\\music\\music%d.mid", resultMid, Num + 1, Num + 1);
 	print(fileName);
 }
 
@@ -1651,7 +1651,7 @@ void Individual::loadChrom(int Num) {
 	int seekcomma = 0;
 	int lastcomma = -1;
 	int counter = 0;
-	std::string path = "../chrom/chrom";
+	std::string path = "hpc/chrom/chrom";
 	path += std::to_string(Num);
 	path += ".csv";
 

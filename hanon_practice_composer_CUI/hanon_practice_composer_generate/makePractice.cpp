@@ -33,7 +33,7 @@ void makePractice::dataPrepare() {
 
 		//コード進行決める。
 		toRead = (char*)(Cont->chordProg);
-		Cont->readData("../data/fingertrain/chordProg.csv", toRead, 1, barNum*2);
+		Cont->readData("hpc/data/fingertrain/chordProg.csv", toRead, 1, barNum*2);
 
 		//音数
 		Cont->noteNum[0] = 4;
@@ -46,12 +46,12 @@ void makePractice::dataPrepare() {
 
 		//左手の形
 		toRead = (char*)(Cont->accompany);
-		Cont->readData("../data/fingertrain/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->readData("hpc/data/fingertrain/accompany.csv", toRead, chordKinds, leftMax);
 		Cont->accNoteNum = 4;
 
 		//ハノンの旋律読み込み
 		toRead = (char*)(Cont->hanon);
-		makePass = "../data/fingertrain/practice_" + std::to_string(Cont->hanonNum);
+		makePass = "hpc/data/fingertrain/practice_" + std::to_string(Cont->hanonNum);
 		makePass += ".csv";
 		Cont->readData(makePass, toRead, 3, noteHNum);//3:上り、下り、音域　12:音数自体は8だけど、領域の大きさを書かないといけないため、12
 		
@@ -63,7 +63,7 @@ void makePractice::dataPrepare() {
 		Cont->chromLen = 128;
 
 		toRead = (char*)(Cont->chordProg);
-		Cont->readData("../data/scale/chordProg.csv", toRead, 1, barNum * 2);
+		Cont->readData("hpc/data/scale/chordProg.csv", toRead, 1, barNum * 2);
 
 		//音数
 		Cont->noteNum[0] = 4;
@@ -76,12 +76,12 @@ void makePractice::dataPrepare() {
 
 		//左手
 		toRead = (char*)(Cont->accompany);
-		Cont->readData("../data/scale/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->readData("hpc/data/scale/accompany.csv", toRead, chordKinds, leftMax);
 		Cont->accNoteNum = 4;
 
 		//ハノン読み込み(スケールだけど)
 		toRead = (char*)(Cont->hanon);
-		Cont->readData("../data/scale/hanon.csv", toRead, 3, noteHNum);
+		Cont->readData("hpc/data/scale/hanon.csv", toRead, 3, noteHNum);
 
 		Cont->Xceil = 2;
 
@@ -91,7 +91,7 @@ void makePractice::dataPrepare() {
 		Cont->chromLen = 96;
 
 		toRead = (char*)(Cont->chordProg);
-		Cont->readData("../data/arpeggio/chordProg.csv", toRead, 1, barNum * 2);
+		Cont->readData("hpc/data/arpeggio/chordProg.csv", toRead, 1, barNum * 2);
 
 		//音数
 		Cont->noteNum[0] = 3;
@@ -103,7 +103,7 @@ void makePractice::dataPrepare() {
 
 		//左手(アルペジオ)
 		toRead = (char*)(Cont->accompany);
-		Cont->readData("../data/arpeggio/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->readData("hpc/data/arpeggio/accompany.csv", toRead, chordKinds, leftMax);
 		Cont->accNoteNum = 6;
 
 		Cont->Xceil = 0;
@@ -115,7 +115,7 @@ void makePractice::dataPrepare() {
 		Cont->chromLen = 128;
 
 		toRead = (char*)(Cont->chordProg);
-		Cont->readData("../data/octave/chordProg.csv", toRead, 1, barNum * 2);
+		Cont->readData("hpc/data/octave/chordProg.csv", toRead, 1, barNum * 2);
 
 		//音数
 		Cont->noteNum[0] = 4;
@@ -128,7 +128,7 @@ void makePractice::dataPrepare() {
 
 		//左手
 		toRead = (char*)(Cont->accompany);
-		Cont->readData("../data/octave/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->readData("hpc/data/octave/accompany.csv", toRead, chordKinds, leftMax);
 		Cont->accNoteNum = 4;
 
 		Cont->Xceil = 0;
@@ -139,7 +139,7 @@ void makePractice::dataPrepare() {
 		Cont->chromLen = 96;
 
 		toRead = (char*)(Cont->chordProg);
-		Cont->readData("../data/chromaticscale/chordProg.csv", toRead, 1, barNum * 2);
+		Cont->readData("hpc/data/chromaticscale/chordProg.csv", toRead, 1, barNum * 2);
 
 		//音数
 		Cont->noteNum[0] = 3;
@@ -152,11 +152,11 @@ void makePractice::dataPrepare() {
 
 		//左手
 		toRead = (char*)(Cont->accompany);
-		Cont->readData("../data/chromaticscale/accompany.csv", toRead, chordKinds, leftMax);
+		Cont->readData("hpc/data/chromaticscale/accompany.csv", toRead, chordKinds, leftMax);
 		Cont->accNoteNum = 3;
 
 		toRead = (char*)(Cont->hanon);
-		Cont->readData("../data/chromaticscale/hanon.csv", toRead, 3, noteHNum);
+		Cont->readData("hpc/data/chromaticscale/hanon.csv", toRead, 3, noteHNum);
 
 		Cont->tempo /= 2;
 		Cont->Xceil = 2;
