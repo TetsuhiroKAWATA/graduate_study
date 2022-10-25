@@ -13,14 +13,21 @@ Opt = ['基礎練習(1~20)', 'スケール(39)', 'アルペジオ(41~43)', 'オ�
 chord = ['C dur', 'G dur', 'D dur', 'A dur', 'E dur', 'H dur', 'F dur', 'B dur', 'Es dur', 'As dur', 'Des dur', 'Ges dur',
         'a moll', 'e moll', 'h moll', 'fis moll', 'cis moll', 'gis moll', 'd moll', 'g moll', 'c moll', 'f moll', 'hes moll', 'es moll']
 
-sg.theme('BlueMono')
+#sg.theme('Tan')
+#sg.theme('BrightColors')
+#sg.theme('DarkBrown3')
+#sg.theme('DarkGreen')
+#sg.theme('GreenTan')
+#sg.theme('LightBrown')
+sg.theme('LightBrown11')
 
-top = [ [sg.Text('Hanon Practice Composer', size = (20,3), font = ('Arial', 24))],
+
+top = [ [sg.Text('Hanon Practice Composer', size = (20,3), font = ('Arial', 24), text_color = ('black'))],
         [sg.Push(), sg.Button('始める', size = (8,1)), sg.Button('やめる', size = (8,1)), sg.Push()] ]
 
-sele1 = [ [sg.Text('練習したい楽曲を選択してください')],
-          [sg.Text('書式:項目名(ハノン曲番号)')],
-          [sg.Text('現在選択中の項目:'), sg.Text(size = (20,1), key = '-OUTPUT-')],#sizeの第一引数で文字数、第二引数で行数を作ってるっぽい
+sele1 = [ [sg.Text('練習したい楽曲を選択してください', text_color = ('black'))],
+          [sg.Text('書式:項目名(ハノン曲番号)', text_color = ('black'))],
+          [sg.Text('現在選択中の項目:', text_color = ('black')), sg.Text(size = (20,1), key = '-OUTPUT-', text_color = ('black'))],#sizeの第一引数で文字数、第二引数で行数を作ってるっぽい
           [sg.Button(Opt[0], key = "0", size = (16,1)), sg.Button(Opt[1], key = "1", size = (16,1)),
           sg.Button(Opt[2], key = "2", size = (16,1)),sg.Button(Opt[3], key = "3", size = (16,1)),
           sg.Button(Opt[4], key = "4", size = (16,1))],
@@ -28,9 +35,9 @@ sele1 = [ [sg.Text('練習したい楽曲を選択してください')],
 
 #基礎練習画面
 #1:1~20選択
-found1 = [ [sg.Text('練習項目:'), sg.Text(Opt[0])],
-           [sg.Text('楽曲番号を選択してください')],
-           [sg.Text('現在選択中の項目:'), sg.Text(size = (12,1), key = '-OUTPUT-')],
+found1 = [ [sg.Text('練習項目:', text_color = ('black')), sg.Text(Opt[0], text_color = ('black'))],
+           [sg.Text('楽曲番号を選択してください', text_color = ('black'))],
+           [sg.Text('現在選択中の項目:', text_color = ('black')), sg.Text(size = (12,1), key = '-OUTPUT-', text_color = ('black'))],
            [sg.Button('1', key = 1, size = (2,1)), sg.Button('2', key = 2, size = (2,1)),
            sg.Button('3', key = 3, size = (2,1)), sg.Button('4', key = 4, size = (2,1)),
            sg.Button('5', key = 5, size = (2,1)), sg.Button('6', key = 6, size = (2,1)),
@@ -45,9 +52,9 @@ found1 = [ [sg.Text('練習項目:'), sg.Text(Opt[0])],
 
 #スケール練習画面
 #1:調選択,3*8の24を表示
-scale1 = [ [sg.Text('練習項目:'), sg.Text(Opt[1])],
-           [sg.Text('楽曲の調を選択してください')],
-           [sg.Text('現在選択中の項目:'), sg.Text(size = (12,1), key = '-OUTPUT-'), sg.Text(size = (6,1), key = '-OUTPUT2-')],
+scale1 = [ [sg.Text('練習項目:', text_color = ('black')), sg.Text(Opt[1], text_color = ('black'))],
+           [sg.Text('楽曲の調を選択してください', text_color = ('black'))],
+           [sg.Text('現在選択中の項目:', text_color = ('black')), sg.Text(size = (12,1), key = '-OUTPUT-', text_color = ('black')), sg.Text(size = (6,1), key = '-OUTPUT2-')],
            [sg.Button(chord[0], size = (8,1), key = 0), sg.Button(chord[1], size = (8,1), key = 1), sg.Button(chord[2], size = (8,1), key = 2), sg.Button(chord[3], size = (8,1), key = 3),
            sg.Button(chord[4], size = (8,1), key = 4), sg.Button(chord[5], size = (8,1), key = 5), sg.Button(chord[6], size = (8,1), key = 6), sg.Button(chord[7], size = (8,1), key = 7)],
            [sg.Button(chord[8], size = (8,1), key = 8), sg.Button(chord[9], size = (8,1), key = 9), sg.Button(chord[10], key = 10, size = (8,1)), sg.Button(chord[11], size = (8,1), key = 11),
@@ -57,9 +64,9 @@ scale1 = [ [sg.Text('練習項目:'), sg.Text(Opt[1])],
            [sg.Button('決定'), sg.Button('やめる')]]
 
 #アルペジオ
-arpe1 = [ [sg.Text('練習項目:'), sg.Text(Opt[2])], 
-           [sg.Text('楽曲の調を選択してください')],
-           [sg.Text('現在選択中の項目:'), sg.Text(size = (12,1), key = '-OUTPUT-'), sg.Text(size = (6,1), key = '-OUTPUT2-')],
+arpe1 = [ [sg.Text('練習項目:', text_color = ('black')), sg.Text(Opt[2], text_color = ('black'))], 
+           [sg.Text('楽曲の調を選択してください', text_color = ('black'))],
+           [sg.Text('現在選択中の項目:', text_color = ('black')), sg.Text(size = (12,1), key = '-OUTPUT-', text_color = ('black')), sg.Text(size = (6,1), key = '-OUTPUT2-')],
            [sg.Button(chord[0], size = (8,1), key = 0), sg.Button(chord[1], size = (8,1), key = 1), sg.Button(chord[2], size = (8,1), key = 2), sg.Button(chord[3], size = (8,1), key = 3),
            sg.Button(chord[4], size = (8,1), key = 4), sg.Button(chord[5], size = (8,1), key = 5), sg.Button(chord[6], size = (8,1), key = 6), sg.Button(chord[7], size = (8,1), key = 7)],
            [sg.Button(chord[8], size = (8,1), key = 8), sg.Button(chord[9], size = (8,1), key = 9), sg.Button(chord[10], key = 10, size = (8,1)), sg.Button(chord[11], size = (8,1), key = 11),
@@ -74,34 +81,37 @@ octa1 = [[]]
 #半音階
 chro1 = [[]]
 
+WaM = [ [sg.Text('楽曲の作成中です', text_color = ('black'))],
+        [sg.Text('しばらくお待ちください', text_color = ('black'))]]
+
 #再生、採点、決定
-frame_layout1 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S1', default_value = 3, size = (20,15), orientation = 'horizontal')],
+frame_layout1 = [ [sg.Text('点数', text_color = ('black')), sg.Slider(range = (1,5), key = 'S1', default_value = 3, size = (20,15), orientation = 'horizontal')],
                  [sg.Button('再生', key = 'play1'), sg.Button('この曲が良い！', key = 'dec1')]]
 
-frame_layout2 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S2', default_value = 3, size = (20,15), orientation = 'horizontal')],
+frame_layout2 = [ [sg.Text('点数', text_color = ('black')), sg.Slider(range = (1,5), key = 'S2', default_value = 3, size = (20,15), orientation = 'horizontal')],
                  [sg.Button('再生', key = 'play2'), sg.Button('この曲が良い！', key = 'dec2')]]
 
-frame_layout3 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S3', default_value = 3, size = (20,15), orientation = 'horizontal')],
+frame_layout3 = [ [sg.Text('点数', text_color = ('black')), sg.Slider(range = (1,5), key = 'S3', default_value = 3, size = (20,15), orientation = 'horizontal')],
                  [sg.Button('再生', key = 'play3'), sg.Button('この曲が良い！', key = 'dec3')]]
 
-frame_layout4 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S4', default_value = 3, size = (20,15), orientation = 'horizontal')],
+frame_layout4 = [ [sg.Text('点数', text_color = ('black')), sg.Slider(range = (1,5), key = 'S4', default_value = 3, size = (20,15), orientation = 'horizontal')],
                  [sg.Button('再生', key = 'play4'), sg.Button('この曲が良い！', key = 'dec4')]]
 
-frame_layout5 = [ [sg.Text('点数'), sg.Slider(range = (1,5), key = 'S5', default_value = 3, size = (20,15), orientation = 'horizontal')],
+frame_layout5 = [ [sg.Text('点数', text_color = ('black')), sg.Slider(range = (1,5), key = 'S5', default_value = 3, size = (20,15), orientation = 'horizontal')],
                  [sg.Button('再生', key = 'play5'), sg.Button('この曲が良い！', key = 'dec5')]]
 
 
 #可否選択、採点画面
-selection = [ [sg.Text('評価画面')],
-              [sg.Text('楽曲に点数をつけ、画面下部の『次の候補を作る』ボタンを押すか、')],
-              [sg.Text('それぞれの楽曲下部の、『この曲が良い！』ボタンを押して結果を出力してください')],
+selection = [ [sg.Text('評価画面', text_color = ('black'))],
+              [sg.Text('楽曲に点数をつけ、画面下部の『次の候補を作る』ボタンを押すか、', text_color = ('black'))],
+              [sg.Text('それぞれの楽曲下部の、『この曲が良い！』ボタンを押して結果を出力してください', text_color = ('black'))],
               [sg.Frame('楽曲1', frame_layout1, title_color = 'black'), sg.Frame('楽曲2', frame_layout2, title_color = 'black'), sg.Frame('楽曲3', frame_layout3, title_color = 'black'), sg.Frame('楽曲4', frame_layout4, title_color = 'black'), sg.Frame('楽曲5', frame_layout5, title_color = 'black')],
               #[sg.InputText('' , key = '-OUTPUT-'), sg.Button('表示')],
               #[sg.Button('楽曲を作り直す')],
               [sg.Button('次の候補を作る'), sg.Button('やめる')]]
 
 #楽譜出力画面
-result_layout = [ [sg.Text('結果')]]
+result_layout = [ [sg.Text('結果', text_color = ('black'))]]
 
 #処理
 window = sg.Window('Hanon Practice Composer',top, resizable = True)
@@ -213,12 +223,12 @@ while True:
                         ans = int(ans)
                         window['-OUTPUT-'].update(chord[ans])
             elif ans == 3:
-                window = sg.Window('Hanon Practice Composer', selection, resizable = True)
                 decide = 1
+                window = sg.Window('Hanon Practice Composer', selection, resizable = True)
                 break
             elif ans == 4:
-                window = sg.Window('Hanon Practice Composer', selection, resizable = True)
                 decide = 1
+                window = sg.Window('Hanon Practice Composer', selection, resizable = True)
                 break
             break
         else:
@@ -229,6 +239,8 @@ while True:
         #print(type(ans))#型確認
         window['-OUTPUT-'].update(Opt[ans])
 
+
+#window = sg.Window('Hanon Practice Composer', WaM, resizable = True)
 #初期集団作成！
 if decide == 1:
     with subprocess.Popen("hpc\\hpc\\hanon_practice_composer_generate.exe", shell=True, stdin=PIPE, stdout=PIPE,stderr=PIPE,universal_newlines=True)as pipe:
@@ -236,6 +248,7 @@ if decide == 1:
         #for line in out.splitlines():
         #    print(line)
 
+#window.close()
 
 #可否選択、採点画面
 while True:

@@ -7,7 +7,7 @@ Time(0:1:0)
 ResetXG();ResetGS();ResetGM();
 
 TimeSignature(4,4)
-Tempo(120)
+Tempo(150)
 ’²()
 
 Track(1)
@@ -16,14 +16,14 @@ Time(1:1:0)
 Voice(1)
 
 l8o4v150
-'g>g'<^'c>c'<'g>g'<'f>f'<'g>g'<'a>a'<'g>g'<
-'f>f'<>'c>c'<<r'f>f'<^'g>g'<^'a>a'<
-'e>e'<^^^'c>c'<'d>d'<'e>e'<'f>f'<
-'b>b'<'g>g'<^>'d>d'<<'g>g'<'f>f'<r'g>g'<
-'g>g'<'e>e'<'c>c'<^'d>d'<^'c>c'<'d>d'<
-'f>f'<'a>a'<'f>f'<'a>a'<>'c>c'<<^'a>a'<'g>g'<
-'g>g'<'b>b'<^>'c>c'<<r'>c<>>c<'<^'b>b'<
-'b>b'<'d>d'<^'c>c'<^^^^
+gfrerrgf
+a>c<a>c<^r>c<b
+cefdgeff
+b>c<arbrbg
+c^gercf^
+>c<^>d<bb>d<>d<b
+>d<ar>d<bg^^
+gagrg^cr
 
 o5v80
 c^g^e^g^
@@ -51,11 +51,11 @@ d^g^f^g^
 c^g^e^g^
 
 v150
-'g>g'<'f>f'<'e>e'<'g>g'<'f>f'<'g>g'<rr
-'f>f'<^'g>g'<'a>a'<r'b>b'<^'a>a'<
-'c>c'<^'e>e'<'d>d'<'e>e'<'g>g'<r'f>f'<
-'g>g'<^'a>a'<'g>g'<^^r'a>a'<
-'g>g'<^'c>c'<^'d>d'<'c>c'<'d>d'<'c>c'<
-'a>a'<'g>g'<'f>f'<^^'a>a'<>'c>c'<<^
-'b>b'<r'g>g'<'a>a'<^'g>g'<'b>b'<'a>a'<
-'d>d'<'c>c'<rr'c>c'<^^r
+e^g^frfg
+fb^>c<a>c<b>d<
+cdrf^ec^
+b^grba^>c<
+c^gefgfa
+a>c<ba>c<b>c<a
+b^^gbra^
+gcgfrecr
