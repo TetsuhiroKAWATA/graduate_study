@@ -6,34 +6,36 @@ TrackName = { "music" }
 Time(0:1:0)
 ResetXG();ResetGS();ResetGM();
 
-TimeSignature(4,4)
-Tempo(150)
-’²()
+TimeSignature(3,4)
+Tempo(120)
+’²#(f)
 
 Track(1)
 Channel(1)
 Time(1:1:0)
 Voice(1)
 
-l8o4v150
-gdergd^e
-fgba^>c<aa
-gg^eedfe
->d<rr>d<b>d<>c<>e<
-gd^^rgec
-ffaa^>c<gb
-b>d<abg>c<ba
-ec^rrcrc
+l8o5v150
+babag>d<
+gagbar
+b>c<>d<gba
+g>d<bg>d<r
+>d<brb^r
+g>d<gbab
+>d<>e<r>e<>d<g
+b>d<rr>g<^
+r^^^^^
 
-o5v80
-c^g^e^g^
-c^a^f^a^
-c^g^e^g^
-d^g^f^g^
-c^g^e^g^
-c^a^f^a^
-d^g^f^g^
-c^g^e^g^
+o4v80
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
+g^^^^r
 
 Track(2)
 Channel(2)
@@ -41,21 +43,22 @@ Time(1:1:0)
 Voice(1)
 
 l8o3v80
-c^g^e^g^
-c^a^f^a^
-c^g^e^g^
-d^g^f^g^
-c^g^e^g^
-c^a^f^a^
-d^g^f^g^
-c^g^e^g^
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
+gb>d<>g<>b<>>d<<
+>>g<<>>d<<>b<>g<>d<b
 
 v150
-grrc^ed^
->c<^>c<ab^aa
-gegfdaf^
-bba^>c<a>c<>e<
-grcerdfc
-fagb^>c<ba
->d<g>d<>c<>e<abg
-ab^r>c<rr>c<
+r^^^^^
+g>d<bgba
+g^a^^>c<
+g>d<>c<>d<rg
+g^b>c<^b
+g>d<g^b^
+gagb>c<b
+grbag>d<
+>c<bab>g<r
