@@ -1139,9 +1139,10 @@ void Individual::print(std::string fileName) {
 	fout << "Channel(1)\n";
 	fout << "Time(1:1:0)\nVoice(1)\n\n";
 
-	octave = "o4";
-	if (data->selectedNum == 2)
-		octave = "o5";
+	octave = "o5";
+	//octave = "o4";
+	//if (data->selectedNum == 2 || data->selectedNum == 0 || data->selectedNum == 1 || data->selectedNum == 3)
+		//octave = "o5";
 	fout << "l8"<< octave << "v150\n";
 
 //	fout.close();
@@ -1161,6 +1162,8 @@ void Individual::print(std::string fileName) {
 	octave = "o5";
 	if (data->selectedNum == 2)
 		octave = "o4";
+	else if (data->selectedNum == 3)
+		octave = "o6";
 	fout << "\n" << octave << "v80\n";
 
 	//”º‘t
@@ -1192,7 +1195,8 @@ void Individual::print(std::string fileName) {
 	fout << "\nv150\n";
 
 	if (data->selectedNum == 2)
-		fout << "r^^^^^\n";
+		fout << data->convNotes[0] << "^^^rr\n";
+		//fout << "r^^^^^\n";
 
 	//¶Žè
 	for (int i = 4; i < 8; i++) {

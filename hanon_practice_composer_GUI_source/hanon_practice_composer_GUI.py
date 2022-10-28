@@ -230,7 +230,7 @@ while True:
                         ans = int(ans)
                         #和声旋律選択
                         if 11 < ans and ans < 24:
-                            tmp = sg.popup('音階の種類を選んでください', background_color = 'lightblue', button_type = 1, custom_text = (' 和声 ', ' 旋律 '), no_titlebar = True, grab_anywhere = True)
+                            tmp = sg.popup('音階の種類を選んでください', background_color = 'tan2', text_color = 'black', button_type = 1, custom_text = (' 和声 ', ' 旋律 '), no_titlebar = True, grab_anywhere = True)
                             if tmp == ' 和声 ':
                                 OptIN = 0
                             else:
@@ -323,7 +323,7 @@ while True:
         dire = wmppath + tmp
         p5 = subprocess.Popen(dire)
     elif event == '1' or event == '2' or event == '3' or event == '4' or event == '5':
-        tmp = sg.popup_yes_no('結果を出力してよろしいですか？', background_color = 'lightblue', no_titlebar = True, grab_anywhere = True)
+        tmp = sg.popup_yes_no('結果を出力してよろしいですか？', background_color = 'tan2', text_color = 'black', no_titlebar = True, grab_anywhere = True)
         if(tmp == 'No'):
 #            print('No')
             continue
@@ -383,4 +383,4 @@ window.close()
 
 #MuseScore起動
 if decide == 1:
-    subprocess.run('\"hpc\\musescore\\bin\\MuseScore3.exe\" hpc\\result\\music.mid -M hpc\\musescore\\styles\\midi_import_options.xml')
+    subprocess.Popen('\"hpc\\musescore\\bin\\MuseScore3.exe\" hpc\\result\\music.mid -M hpc\\musescore\\styles\\midi_import_options.xml')
